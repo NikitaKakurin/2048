@@ -21,6 +21,7 @@ html{
 }
 
 .game_2048-container{
+    position: relative;
     padding: 20px;
     width: 100%;
     max-width: 500px;
@@ -33,6 +34,7 @@ html{
     flex-wrap: wrap;
     row-gap: 20px;
 }
+
 .game_2048-item-square{
     width: 100%;
     max-width: 100px;
@@ -50,5 +52,25 @@ html{
     border-radius: 5px;
     background-color: bisque;
     margin-bottom: 100px;
+    box-shadow: 7px 7px 7px #1c1c1c;
 }
 
+.game_new-game-btn:hover{
+    box-shadow: 3px 3px 3px #1c1c1c;
+}
+
+.game_2048-active-square{
+    position: absolute;
+    display: inline-block;
+    background-color: antiquewhite;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: top 0.3s ease, left 0.3s ease;
+}
+
+.move{
+    width: 100;
+    height: 50;
+}
