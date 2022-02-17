@@ -1,6 +1,42 @@
 $containerBgColor:#f8ffe5;
 $fontColor:#555;
 
+@function setFontColor($bgColor){
+    @if(lightness($bgColor)>80){
+        @return #1c1c1c;
+    }@else{
+        @return #f4f4f4;
+    }
+}
+
+$color2:rgb(223, 213, 167);
+$color4:rgb(212, 196, 122);
+$color8:rgb(189, 169, 82);
+$color16:rgb(156, 130, 13);
+$color32:rgb(236, 118, 8);
+$color64:rgb(236, 80, 8);
+$color128:rgb(240, 111, 78);
+$color256:rgb(224, 55, 55);
+$color512:rgb(165, 83, 7);
+$color1024:rgb(150, 236, 110);
+$color2048:rgb(68, 192, 74);
+$color4096:rgb(47, 179, 42);
+$color8192:rgb(2, 170, 38);
+$color16384:rgb(9, 185, 103);
+$color32768:rgb(106, 216, 201);
+$color65536:rgb(126, 203, 226);
+$color131072:rgb(74, 116, 194);
+$color262144:rgb(53, 63, 206);
+$color524288:rgb(9, 11, 144);
+$color1048576:rgb(34, 5, 90);
+$color2097152:rgb(214, 54, 206);
+$color4194304:rgb(175, 28, 155);
+$color8388608:rgb(124, 7, 104);
+$color16777216:rgb(0, 0, 0);
+
+
+
+
 html{
     font-size: 20px;
     font-weight: 400;
@@ -62,12 +98,130 @@ html{
 .game_2048-active-square{
     position: absolute;
     display: inline-block;
-    background-color: antiquewhite;
+    background-color: rgb(223, 215, 177);
     font-size: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: top 0.3s ease, left 0.3s ease;
+    user-select: none;
+
+    &-4{
+        background-color: $color4;
+        color:setFontColor($color4);
+    }
+    &-8{
+        background-color: $color8;
+        color:setFontColor($color8);
+    }
+    &-16{
+        background-color: $color16;
+        color:setFontColor($color16);
+    }
+    &-32{
+        background-color: $color32;
+        color:setFontColor($color32);
+    }
+    &-64{
+        background-color: $color64;
+        color:setFontColor($color64);
+    }
+    &-128{
+        background-color: $color128;
+        color:setFontColor($color128);
+    }
+    &-256{
+        background-color: $color256;
+        color:setFontColor($color256);
+    }
+    &-512{
+        background-color: $color512;
+        color:setFontColor($color512);
+    }
+    &-1024{
+        background-color: $color1024;
+        color:setFontColor($color1024);
+        font-size: 30px;
+    }
+    &-2048{
+        background-color: $color2048;
+        color:setFontColor($color2048);
+    }
+
+    &-4096{
+        background-color: $color4096;
+        color:setFontColor($color4096);
+    }
+
+    &-8192{
+        background-color: $color8192;
+        color:setFontColor($color8192);
+    }
+
+    &-16384{
+        background-color: $color16384;
+        color:setFontColor($color16384);
+    }
+
+    &-32768{
+        background-color: $color32768;
+        color:setFontColor($color32768);
+    }
+
+    &-65536{
+        background-color: $color65536;
+        color:setFontColor($color65536);
+    }
+
+    &-131072{
+        background-color: $color131072;
+        color:setFontColor($color131072);
+    }
+
+    &-262144{
+        background-color: $color262144;
+        color:setFontColor($color262144);
+    }
+
+    &-524288{
+        background-color: $color524288;
+        color:setFontColor($color524288);
+    }
+    &-1048576{
+        background-color: $color1048576;
+        color:setFontColor($color1048576);
+    }
+    &-2097152{
+        background-color: $color2097152;
+        color:setFontColor($color2097152);
+    }
+    &-4194304{
+        background-color: $color4194304;
+        color:setFontColor($color4194304);
+    }
+    &-8388608{
+        background-color: $color8388608;
+        color:setFontColor($color8388608);
+    }
+    &-16777216{
+        background-color: $color16777216;
+        color:setFontColor($color16777216);
+    }
+}
+.game_2048-container-active-square{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    
+}
+.game_2048-score__value,
+.game_2048-score__declaration{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 40px;
+    font-weight: 700;
 }
 
 .move{
