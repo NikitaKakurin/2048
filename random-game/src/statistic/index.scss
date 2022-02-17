@@ -1,0 +1,38 @@
+.game-statistic{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.game-statistic-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.game-statistic-item,
+.game-statistic-current,
+.game-statistic-head,
+.game-statistic-title{
+    @include displayFlexStat();
+    height: 100px;
+}
+
+.game-static-number{
+    width: 100px;
+    height: 100px;
+    border: 1px solid #1c1c1c;
+}
+
+.game-statistic-score,
+.game-statistic-steps,
+.game-statistic-time{
+    text-align: center;
+    height: 100px;
+    width: 200px;
+    border: 1px solid #1c1c1c;
+}

@@ -9,6 +9,15 @@ $fontColor:#555;
     }
 }
 
+@mixin displayFlexStat() {
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border: 2px solid #1c1c1c;
+}
+
 $color2:rgb(223, 213, 167);
 $color4:rgb(212, 196, 122);
 $color8:rgb(189, 169, 82);
@@ -47,6 +56,7 @@ html{
 }
 
 .game-container{
+    position: relative;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -103,7 +113,7 @@ html{
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: top 0.3s ease, left 0.3s ease;
+    transition: top 0.3s ease, left 0.3s ease, opacity 0.1s ease;
     user-select: none;
 
     &-4{
@@ -146,77 +156,102 @@ html{
     &-2048{
         background-color: $color2048;
         color:setFontColor($color2048);
+        font-size: 30px;
     }
 
     &-4096{
         background-color: $color4096;
         color:setFontColor($color4096);
+        font-size: 30px;
     }
 
     &-8192{
         background-color: $color8192;
         color:setFontColor($color8192);
+        font-size: 30px;
     }
 
     &-16384{
         background-color: $color16384;
         color:setFontColor($color16384);
+        font-size: 30px;
     }
 
     &-32768{
         background-color: $color32768;
         color:setFontColor($color32768);
+        font-size: 30px;
     }
 
     &-65536{
         background-color: $color65536;
         color:setFontColor($color65536);
+        font-size: 30px;
     }
 
     &-131072{
         background-color: $color131072;
         color:setFontColor($color131072);
+        font-size: 25px;
     }
 
     &-262144{
         background-color: $color262144;
         color:setFontColor($color262144);
+        font-size: 25px;
     }
 
     &-524288{
         background-color: $color524288;
         color:setFontColor($color524288);
+        font-size: 25px;
     }
     &-1048576{
         background-color: $color1048576;
         color:setFontColor($color1048576);
+        font-size: 25px;
     }
     &-2097152{
         background-color: $color2097152;
         color:setFontColor($color2097152);
+        font-size: 25px;
     }
     &-4194304{
         background-color: $color4194304;
         color:setFontColor($color4194304);
+        font-size: 25px;
     }
     &-8388608{
         background-color: $color8388608;
         color:setFontColor($color8388608);
+        font-size: 25px;
     }
     &-16777216{
         background-color: $color16777216;
         color:setFontColor($color16777216);
+        font-size: 25px;
     }
 }
+
 .game_2048-container-active-square{
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-
-    
 }
+
+.game_2048-score__container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.game_2048-max-score__declaration,
+.game_2048-time__declaration,
+.game_2048-max-score__value,
+.game_2048-time__value,
 .game_2048-score__value,
 .game_2048-score__declaration{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -225,6 +260,7 @@ html{
 }
 
 .move{
-    width: 100;
-    height: 50;
+    width: 100px;
+    height: 50px;
 }
+

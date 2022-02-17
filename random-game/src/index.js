@@ -1,5 +1,8 @@
+import './style/normalize.css';
 import './style/style.scss'; 
-import './style/normalize.css'
+
+
+
 
 import { Game2048 } from './Script2048/g2048';
 
