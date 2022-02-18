@@ -1,9 +1,16 @@
+@import '../style/variables.scss';
+
 .game-statistic{
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .game-statistic-container{
@@ -11,28 +18,34 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    margin-top: 30px;
+    width: 700px;
 }
 
+.game-statistic-maximum,
 .game-statistic-item,
 .game-statistic-current,
 .game-statistic-head,
 .game-statistic-title{
     @include displayFlexStat();
-    height: 100px;
+    height: 50px;
 }
 
 .game-static-number{
     width: 100px;
-    height: 100px;
+    height: 50px;
     border: 1px solid #1c1c1c;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
-
+.game-statistic-value,
 .game-statistic-score,
 .game-statistic-steps,
 .game-statistic-time{
-    text-align: center;
-    height: 100px;
-    width: 200px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 150px;
     border: 1px solid #1c1c1c;
 }

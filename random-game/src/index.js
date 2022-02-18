@@ -1,6 +1,7 @@
 import './style/normalize.css';
 import './style/style.scss'; 
-
+import './style/game2048.scss';
+import './statistic/statistic.scss';
 
 
 

@@ -1,0 +1,45 @@
+@mixin displayFlexStat() {
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border: 2px solid #1c1c1c;
+    background-color: $containerBgColor;
+}
+
+$containerBgColor:#f8ffe5;
+$fontColor:#555;
+
+@function setFontColor($bgColor){
+    @if(lightness($bgColor)>80){
+        @return #1c1c1c;
+    }@else{
+        @return #f4f4f4;
+    }
+}
+
+$color2:rgb(223, 213, 167);
+$color4:rgb(223, 207, 147);
+$color8:rgb(185, 164, 70);
+$color16:rgb(156, 130, 13);
+$color32:rgb(236, 118, 8);
+$color64:rgb(236, 80, 8);
+$color128:rgb(240, 111, 78);
+$color256:rgb(224, 55, 55);
+$color512:rgb(165, 83, 7);
+$color1024:rgb(150, 236, 110);
+$color2048:rgb(68, 192, 74);
+$color4096:rgb(47, 179, 42);
+$color8192:rgb(2, 170, 38);
+$color16384:rgb(9, 185, 103);
+$color32768:rgb(106, 216, 201);
+$color65536:rgb(126, 203, 226);
+$color131072:rgb(74, 116, 194);
+$color262144:rgb(53, 63, 206);
+$color524288:rgb(9, 11, 144);
+$color1048576:rgb(34, 5, 90);
+$color2097152:rgb(214, 54, 206);
+$color4194304:rgb(175, 28, 155);
+$color8388608:rgb(124, 7, 104);
+$color16777216:rgb(0, 0, 0);
