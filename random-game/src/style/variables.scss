@@ -12,7 +12,7 @@ $containerBgColor:#f8ffe5;
 $fontColor:#555;
 
 @function setFontColor($bgColor){
-    @if(lightness($bgColor)>80){
+    @if(lightness($bgColor)>70){
         @return #1c1c1c;
     }@else{
         @return #f4f4f4;

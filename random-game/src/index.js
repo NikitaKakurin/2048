@@ -2,14 +2,17 @@ import './style/normalize.css';
 import './style/style.scss'; 
 import './style/game2048.scss';
 import './statistic/statistic.scss';
+import './ads/ads.scss';
 
 
 
 import { Game2048 } from './Script2048/g2048';
-
+import Statistic from './statistic/statistic'
 let log = (param)=> console.log(param);
 
 const btnNewGame = document.querySelector('game_new-game-btn');
+
+const statistic = new Statistic('.game-statistic')
 const g2048 = new Game2048('.game_2048-container');
 
 document.addEventListener('click', handleClick);
@@ -60,7 +63,11 @@ function handleClick(event){
     }
     if(target.classList.contains('right')){
         g2048.moveRight();
+        g2048.handleGameOver();
         return;
+    }
+    if(target.classList.contains('game-statistic-close-btn')){
+        statistic.hideStatistic()
     }
 }
 
@@ -101,4 +108,4 @@ function getStartSwipe(event){
   }
 }
 
-
+export {statistic, g2048};

@@ -1,4 +1,5 @@
 let log = (param)=> console.log(param);
+import {statistic} from '../index';
 
 
 export class Game2048{
@@ -12,10 +13,32 @@ export class Game2048{
         this.countInRow = Math.sqrt(this.squares.length);
         this.squaresCoords = [];
         this.isNextSquareShow=false;
-        this.gameTime.innerHTML = '00:00';
+        
+        this.propertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
+        this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
+                            {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0},'history':[]};
+        this.isGameGoing = false;
     }
     
+    saveLocalStorage(){
+        this.propertyGame.time = this.gameTime.innerText;
+        this.propertyGame.score = this.score;
+        this.statisticObj.maximum = (this.statisticObj.maximum.score>this.propertyGame.score)?this.statisticObj.maximum:this.propertyGame;
+        if(this.statisticObj.history.length>10){
+            this.statisticObj.history.pop();
+        }
+        this.statisticObj.history.unshift(this.propertyGame);
+        localStorage.setItem('propertyGame', JSON.stringify(this.propertyGame))
+        localStorage.setItem('statisticObj', JSON.stringify(this.statisticObj))
+    }
+
     initGame(){
+        if(this.isGameGoing){
+            this.saveLocalStorage();
+        }
+        this.isGameGoing=true;
+        this.gameTime.innerHTML = '00:00';
+        this.score = 0;
         this.setCoords()
         this.initTime = Date.now();
         // this.timer = 0;
@@ -23,7 +46,7 @@ export class Game2048{
             let currentTime = Date.now()
             this.gameTime.innerText = this.calcTime(Math.floor((currentTime - this.initTime)/1000));
         }, 1000);
-        this.score = 0;
+        this.maximumScore = 0||localStorage.getItem('maximum');
         this.scoreTable.innerText = this.score;
         this.squareSizes = {
             'width':this.squares[0].clientWidth,
@@ -86,7 +109,6 @@ export class Game2048{
         return (Math.random()<0.1)?4:2;
     }
     createActiveSquare(squarePlace, value){
-        debugger
         let ASquare = document.createElement('div');
         ASquare.innerText = value;
         ASquare.dataset.value = value;
@@ -103,24 +125,24 @@ export class Game2048{
         
         this.containerActiveSquares.append(ASquare);
         ASquare.style.opacity=0;
-
-
+        this.propertyGame.steps++;
         let delayBeforeShowASquare = setTimeout(()=>{
-            debugger
             ASquare.style.opacity=1;
             this.isNextSquareShow=true;
-            // if(this.arrayOfEmpty.length==1 && this.isGameOver()){
-            //     setTimeout(()=>handleGameOver(),200)
-            // }
+            if(this.arrayOfEmpty.length==1 && this.isGameOver()){
+                setTimeout(()=>this.handleGameOver(),200)
+            }
         }, 300);
     }
 
-    // handleGameOver(){
-    //     this.showAds('GameOver')
-    // }
-    // showAds(adsText){
-        
-    // }
+    handleGameOver(){
+        this.isGameGoing = false;
+        this.saveLocalStorage();
+        statistic.renderAds('Game over');
+        statistic.renderStatistic();
+        statistic.showStatistic();
+    }
+
 
     isGameOver(){
         for(let row = 0; row<this.countInRow; row++){
@@ -331,6 +353,7 @@ export class Game2048{
         }
         if(isMergeSquare){
             currentSquare.dataset.value = (+currentSquare.dataset.value) * 2;
+            this.propertyGame.value = Math.max(currentSquare.dataset.value, this.propertyGame.value)
             currentSquare.dataset.isCanChange = "";
             currentSquare.addEventListener('transitionend', handleTransitionEnd)
         }
