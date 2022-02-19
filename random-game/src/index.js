@@ -4,8 +4,6 @@ import './style/game2048.scss';
 import './statistic/statistic.scss';
 import './ads/ads.scss';
 
-
-
 import { Game2048 } from './Script2048/g2048';
 import Statistic from './statistic/statistic'
 let log = (param)=> console.log(param);
@@ -63,12 +61,25 @@ function handleClick(event){
     }
     if(target.classList.contains('right')){
         g2048.moveRight();
-        g2048.handleGameOver();
+        g2048.initGameOver();
         return;
     }
+
     if(target.classList.contains('game-statistic-close-btn')){
-        statistic.hideStatistic()
+        statistic.hideStatistic();
     }
+
+    if(target.classList.contains('game-container__show-stat-btn')){
+        g2048.setPropertyGame();
+        statistic.renderStatistic();
+        statistic.showStatistic();
+    }
+
+    if(target.classList.contains('game-container__step-back')){
+        g2048.renderPreviousBoard();
+    }
+
+    
 }
 
 function getStartSwipe(event){

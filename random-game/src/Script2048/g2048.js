@@ -10,35 +10,92 @@ export class Game2048{
         this.containerActiveSquares = document.querySelector('.game_2048-container-active-square');
         this.scoreTable = document.querySelector('.game_2048-score__value');
         this.gameTime = document.querySelector('.game_2048-time__value');
+        this.maxScore = document.querySelector('.game_2048-max-score__value');
         this.countInRow = Math.sqrt(this.squares.length);
         this.squaresCoords = [];
         this.isNextSquareShow=false;
+        this.isGameGoing = false;
+        this.isNotGet2048 = true;
         
         this.propertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
         this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
                             {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0},'history':[]};
-        this.isGameGoing = false;
+        
     }
     
-    saveLocalStorage(){
+    setPropertyGame(){
+        this.propertyGame = {}
         this.propertyGame.time = this.gameTime.innerText;
         this.propertyGame.score = this.score;
-        this.statisticObj.maximum = (this.statisticObj.maximum.score>this.propertyGame.score)?this.statisticObj.maximum:this.propertyGame;
-        if(this.statisticObj.history.length>10){
-            this.statisticObj.history.pop();
+        this.propertyGame.steps = this.steps;
+        this.propertyGame.value = this.value
+    }
+
+    setPrevPropertyGame(){
+        this.prevPropertyGame = {};
+        this.prevPropertyGame.time = this.gameTime.innerText;
+        this.prevPropertyGame.score = this.score;
+        this.prevPropertyGame.steps = this.steps;
+        this.prevPropertyGame.value = this.value
+    }
+
+    setStatisticObj(){
+        this.statisticObj.maximum = (this.statisticObj.maximum.score>this.score)?this.statisticObj.maximum:this.propertyGame;
+        if(this.statisticObj.history.length>=10 && this.propertyGame.score > this.statisticObj.history[9].score){
+                this.statisticObj.history.pop();
         }
-        this.statisticObj.history.unshift(this.propertyGame);
+        this.statisticObj.history.push(this.propertyGame);
+        this.statisticObj.history=this.statisticObj.history.sort((a,b)=>{
+            return +b.score - +a.score;
+        })
+    }
+
+    saveLocalStorage(){
+        if(this.value==0||this.score==0||this.steps==0){
+            return;
+        }
+        this.setPropertyGame();
+        this.setStatisticObj();
+
         localStorage.setItem('propertyGame', JSON.stringify(this.propertyGame))
         localStorage.setItem('statisticObj', JSON.stringify(this.statisticObj))
     }
 
+    initGameOver(){
+        this.isGameGoing = false;
+        this.saveLocalStorage();
+        statistic.renderAds('Game over');
+        statistic.renderStatistic();
+        statistic.showStatistic();
+    }
+
+    initGet2048(){
+        this.setPropertyGame()
+        statistic.renderAds('You Win!');
+        statistic.renderStatistic();
+        statistic.showStatistic();
+    }
+
     initGame(){
+        this.prevPropertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
+        this.propertyGame = localStorage.getItem('propertyGame')?JSON.parse(localStorage.getItem('propertyGame')):
+        {'steps':0,'score':0, 'time':'00:00', 'value':0};
+        this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
+                            {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0},'history':[]};
+        
         if(this.isGameGoing){
             this.saveLocalStorage();
         }
+
         this.isGameGoing=true;
+        this.isNotGet2048=true;
         this.gameTime.innerHTML = '00:00';
         this.score = 0;
+        this.steps = 0;
+        this.value = 0;
+        this.maximumScore = 0||this.statisticObj.maximum.score;
+        this.maxScore.innerHTML = this.maximumScore;
+
         this.setCoords()
         this.initTime = Date.now();
         // this.timer = 0;
@@ -46,7 +103,7 @@ export class Game2048{
             let currentTime = Date.now()
             this.gameTime.innerText = this.calcTime(Math.floor((currentTime - this.initTime)/1000));
         }, 1000);
-        this.maximumScore = 0||localStorage.getItem('maximum');
+        
         this.scoreTable.innerText = this.score;
         this.squareSizes = {
             'width':this.squares[0].clientWidth,
@@ -61,6 +118,18 @@ export class Game2048{
             [null, null, null, null],
             [null, null, null, null],
         ]
+
+        this.previousMove = {"positions":[
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+        ],"values":[
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+        ]}
 
         this.createActiveSquare(this.choseRandomActiveSquare(),this.choseRandomValue())
     }
@@ -125,23 +194,19 @@ export class Game2048{
         
         this.containerActiveSquares.append(ASquare);
         ASquare.style.opacity=0;
-        this.propertyGame.steps++;
+        this.steps++;
         let delayBeforeShowASquare = setTimeout(()=>{
             ASquare.style.opacity=1;
             this.isNextSquareShow=true;
+            this.isPreviousBoardCopied = false;
             if(this.arrayOfEmpty.length==1 && this.isGameOver()){
-                setTimeout(()=>this.handleGameOver(),200)
+                setTimeout(()=>this.initGameOver(),200)
             }
         }, 300);
+        return ASquare;
     }
 
-    handleGameOver(){
-        this.isGameGoing = false;
-        this.saveLocalStorage();
-        statistic.renderAds('Game over');
-        statistic.renderStatistic();
-        statistic.showStatistic();
-    }
+
 
 
     isGameOver(){
@@ -202,135 +267,139 @@ export class Game2048{
             })
         })
     };
+
     setIsCanChangeTrue(square){
         square.dataset.isCanChange = "true";
-    }            
+    }
+
     moveUp(){
         if(this.isNextSquareShow==false){
             return;
         }
-        let isChange = false;
+        this.isChange = false;
         for(let column = 0; column < this.countInRow; column++){
-            let steps = 0;
+            this.moveSteps = 0;
             for(let row = 0; row<this.countInRow; row++){
-                if(this.ArrayOfSquares[row][column]!==null){
-                    if((row - (steps+1)>=0)
-                        && this.ArrayOfSquares[row - (steps+1)][column]!==null
-                        && this.ArrayOfSquares[row - (steps+1)][column].dataset.isCanChange
-                        && this.ArrayOfSquares[row - (steps+1)][column].dataset.value == this.ArrayOfSquares[row][column].dataset.value){
-                            this.changeArrayOfSquares(row, column, row - (steps+1), column , true);
-                            steps++;
-                            isChange=true;
-                    }else if(steps>0){
-                        this.changeArrayOfSquares(row, column, row - steps, column, false)
-                        isChange=true;
-                    }
-                }else{
-                    steps++
-                }
+                this.calcMove((row - (this.moveSteps+1)>=0), row, column, row - (this.moveSteps+1), column, row - this.moveSteps, column)
             }
         }
-        if(isChange){
-            this.isNextSquareShow=false;
-            this.createActiveSquare(this.choseRandomActiveSquare(),this.choseRandomValue());
-        }
+        this.finishMove()
     }
 
     moveDown(){
         if(this.isNextSquareShow==false){
             return;
         }
-        let isChange = false;
+        this.isChange = false;
         for(let column = 0; column < this.countInRow; column++){
-            let steps = 0;
+            this.moveSteps = 0;
             for(let row = this.countInRow-1; row>=0; row--){
-                if(this.ArrayOfSquares[row][column]!==null){
-                    if((row + (steps+1)<this.countInRow)
-                        && this.ArrayOfSquares[row + (steps+1)][column]!==null 
-                        && this.ArrayOfSquares[row + (steps+1)][column].dataset.isCanChange
-                        && this.ArrayOfSquares[row + (steps+1)][column].dataset.value == this.ArrayOfSquares[row][column].dataset.value){
-                            this.changeArrayOfSquares(row, column, row + (steps+1), column , true);
-                            steps++;
-                            isChange=true;
-                    }else if(steps>0){
-                        this.changeArrayOfSquares(row, column, row + steps, column, false)
-                        isChange=true;
-                    }
-                }else{
-                    steps++
-                }
+                this.calcMove((row + (this.moveSteps+1)<this.countInRow),row, column, row + (this.moveSteps+1), column, row + this.moveSteps, column)
             }
         }
-        if(isChange){
-            this.isNextSquareShow=false;
-            this.createActiveSquare(this.choseRandomActiveSquare(),this.choseRandomValue());
-        }
+        this.finishMove()
     }
 
     moveLeft(){
         if(this.isNextSquareShow==false){
             return;
         }
-        let isChange = false;
+        this.isChange = false;
         for(let row = 0; row < this.countInRow; row++){
-            let steps = 0;
+            this.moveSteps = 0;
             for(let column = 0; column<this.countInRow; column++){
-                if(this.ArrayOfSquares[row][column]!==null){
-                    if((column - (steps+1)>=0) 
-                        && this.ArrayOfSquares[row][column - (steps+1)]!==null
-                        && this.ArrayOfSquares[row][column - (steps+1)].dataset.isCanChange
-                        && this.ArrayOfSquares[row][column - (steps+1)].dataset.value == this.ArrayOfSquares[row][column].dataset.value){
-                            this.changeArrayOfSquares(row, column, row, column - (steps+1) , true);
-                            steps++;
-                            isChange=true;
-                    }else if(steps>0){
-                        this.changeArrayOfSquares(row, column, row, column - steps, false)
-                        isChange=true;
-                    }
-                }else{
-                    steps++
-                }
+                this.calcMove((column - (this.moveSteps+1)>=0),row, column, row, column - (this.moveSteps+1), row, column - this.moveSteps)
             }
         }
-        if(isChange){
-            this.isNextSquareShow=false;
-            this.createActiveSquare(this.choseRandomActiveSquare(),this.choseRandomValue());
-        }
+        this.finishMove()
     }
 
     moveRight(){
         if(this.isNextSquareShow==false){
             return;
         }
-        let isChange = false;
+        this.isChange = false;
         for(let row = 0; row < this.countInRow; row++){
-            let steps = 0;
+            this.moveSteps = 0;
             for(let column= this.countInRow-1; column>=0; column--){
-                if(this.ArrayOfSquares[row][column]!==null){
-                    if((column + (steps+1)<this.countInRow) 
-                        && this.ArrayOfSquares[row][column + (steps+1)]!==null
-                        && this.ArrayOfSquares[row][column + (steps+1)].dataset.isCanChange
-                        && this.ArrayOfSquares[row][column + (steps+1)].dataset.value == this.ArrayOfSquares[row][column].dataset.value){
-                            this.changeArrayOfSquares(row, column, row, column + (steps+1) , true);
-                            steps++;
-                            isChange=true;
-                    }else if(steps>0){
-                        this.changeArrayOfSquares(row, column, row, column + steps, false)
-                        isChange=true;
-                    }
-                }else{
-                    steps++
-                }
+                this.calcMove((column + (this.moveSteps+1)<this.countInRow),row, column, row, column + (this.moveSteps+1), row, column + this.moveSteps)
             }
         }
-        if(isChange){
-            this.isNextSquareShow=false;
-            this.createActiveSquare(this.choseRandomActiveSquare(),this.choseRandomValue());
+        this.finishMove()
+    }
+
+    calcMove(checkLimit,row, column, mergeRow, mergeColumn, moveRow, moveColumn){
+        if(this.ArrayOfSquares[row][column]!==null){
+            if((checkLimit)
+                && this.ArrayOfSquares[mergeRow][mergeColumn]!==null
+                && this.ArrayOfSquares[mergeRow][mergeColumn].dataset.isCanChange
+                && this.ArrayOfSquares[mergeRow][mergeColumn].dataset.value == this.ArrayOfSquares[row][column].dataset.value){
+                    this.changeArrayOfSquares(row, column, mergeRow, mergeColumn , true);
+                    this.moveSteps++;
+                    this.isChange=true;
+            }else if(this.moveSteps>0){
+                this.changeArrayOfSquares(row, column, moveRow, moveColumn, false)
+                this.isChange=true;
+            }
+        }else{
+            this.moveSteps++
         }
+        
+    }
+
+    copyPreviousBoard(row){
+        if(this.isPreviousBoardCopied){
+            return;
+        }
+        this.previousMove.positions=[];
+        this.ArrayOfSquares.forEach((row,indexRow)=>{
+            this.previousMove.positions[indexRow]=[]
+            row.forEach((square, indexColumn)=>{
+                this.previousMove.positions[indexRow][indexColumn] = square || null;
+                this.previousMove.values[indexRow][indexColumn] = square? square.innerText : null;
+            })
+        })
+        this.setPrevPropertyGame();
+        this.isPreviousBoardCopied = true;
+    }
+
+    renderPreviousBoard(){
+        this.previousMove.positions.forEach((row,indexRow)=>{
+            row.forEach((square, indexColumn)=>{
+                if(square){
+                    this.containerActiveSquares.append(square);
+                    square.dataset.value=this.previousMove.values[indexRow][indexColumn];
+                    
+                    setTimeout(()=>{
+                        square.style.top = this.squaresCoords[indexRow][indexColumn].top + 'px';
+                        square.style.left = this.squaresCoords[indexRow][indexColumn].left + 'px';
+                        square.classList.remove(`game_2048-active-square-${square.innerText}`);
+                        square.innerText=this.previousMove.values[indexRow][indexColumn];
+                        square.classList.add(`game_2048-active-square-${square.innerText}`)
+                    },50)
+
+                }else{
+
+                }
+            })
+        })
+        this.ArrayOfSquares=this.previousMove.positions;
+        this.lastSquare.remove();
+        this.score=this.prevPropertyGame.score;
+        this.value=this.prevPropertyGame.value;
+        this.scoreTable.innerText=this.score;
     }
 
 
+    finishMove(){
+        if(this.isChange){
+            this.isNextSquareShow=false;
+            this.lastSquare=this.createActiveSquare(this.choseRandomActiveSquare(),this.choseRandomValue());
+        }
+    }
+
     changeArrayOfSquares(currentRow, currentColumn, targetRow, targetColumn, isMergeSquare){
+        this.copyPreviousBoard();
         let previousSquare = this.ArrayOfSquares[targetRow][targetColumn];
         this.ArrayOfSquares[targetRow][targetColumn]=this.ArrayOfSquares[currentRow][currentColumn];
         this.ArrayOfSquares[currentRow][currentColumn]=null
@@ -353,7 +422,11 @@ export class Game2048{
         }
         if(isMergeSquare){
             currentSquare.dataset.value = (+currentSquare.dataset.value) * 2;
-            this.propertyGame.value = Math.max(currentSquare.dataset.value, this.propertyGame.value)
+            this.value = Math.max(+currentSquare.dataset.value, +this.value)
+            if(this.value === 2048 && this.isNotGet2048){
+                this.initGet2048();
+                this.isNotGet2048 = false;
+            }
             currentSquare.dataset.isCanChange = "";
             currentSquare.addEventListener('transitionend', handleTransitionEnd)
         }

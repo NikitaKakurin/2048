@@ -17,6 +17,7 @@ class Statistic{
 
     hideStatistic(){
         this.container.classList.remove('game-statistic--show');
+        this.renderAds("");
     }
 
     renderAds(value){
@@ -27,8 +28,9 @@ class Statistic{
         this.history.innerHTML = "";
         this.currAndMax.innerHTML = "";
 
-        console.log(g2048.propertyGame)
-        console.log(g2048.statisticObj)
+    this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
+        {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0},'history':[]};
+
     
     let currAndMaxFrag = document.createDocumentFragment();
     currAndMaxFrag.append(this.renderOneRow("Current", 
@@ -38,16 +40,16 @@ class Statistic{
                             g2048.propertyGame.time))
     
     currAndMaxFrag.append(this.renderOneRow("Max", 
-                            g2048.statisticObj.maximum.score,
-                            g2048.statisticObj.maximum.value,
-                            g2048.statisticObj.maximum.steps,
-                            g2048.statisticObj.maximum.time))
+                            this.statisticObj.maximum.score,
+                            this.statisticObj.maximum.value,
+                            this.statisticObj.maximum.steps,
+                            this.statisticObj.maximum.time))
     
     this.currAndMax.append(currAndMaxFrag);
 
     let fragment = document.createDocumentFragment();
     
-    g2048.statisticObj.history.forEach((game, index) => {
+    this.statisticObj.history.forEach((game, index) => {
         fragment.append(this.renderOneRow(index+1, game.score, game.value, game.steps, game.time))
     });
 
