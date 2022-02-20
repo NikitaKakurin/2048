@@ -1,5 +1,17 @@
 let log = (param)=> console.log(param);
 import {statistic} from '../index';
+import cardboard  from '../assets/sounds/619685_strangehorizon_small-cardboard-box-8.mp3';
+import flawlessVictory from '../assets/sounds/564920_audeption_flawless-victory-game-over-deep-voice (online-audio-converter.com).mp3';
+import gameOver from '../assets/sounds/368367_thezero_game-over-sound.mp3';
+import wrong from '../assets/sounds/331912_kevinvg207_wrong-buzzer.mp3';
+import metkir from '../assets/sounds/619714__metkir__3.mp3';
+
+const beep = new Audio(cardboard);
+const victory = new Audio(flawlessVictory);
+const gameOverSound = new Audio(gameOver);
+const wrongBeep = new Audio(wrong);
+const moveBack = new Audio(metkir);
+
 
 
 export class Game2048{
@@ -21,6 +33,8 @@ export class Game2048{
         this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
                             {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0},'history':[]};
         
+        // this.previousPosition=localStorage.getItem('PositionBeforeUnload')?JSON.parse(localStorage.getItem('PositionBeforeUnload')):null;
+                                                                       
     }
     
     setPropertyGame(){
@@ -41,7 +55,7 @@ export class Game2048{
 
     setStatisticObj(){
         this.statisticObj.maximum = (this.statisticObj.maximum.score>this.score)?this.statisticObj.maximum:this.propertyGame;
-        if(this.statisticObj.history.length>=10 && this.propertyGame.score > this.statisticObj.history[9].score){
+        if(this.statisticObj.history.length>=9 && this.propertyGame.score > this.statisticObj.history[8].score){
                 this.statisticObj.history.pop();
         }
         this.statisticObj.history.push(this.propertyGame);
@@ -67,9 +81,11 @@ export class Game2048{
         statistic.renderAds('Game over','gameOver');
         statistic.renderStatistic();
         statistic.showStatistic();
+        gameOverSound.play();
     }
 
     initGet2048(){
+        victory.play();
         this.setPropertyGame()
         statistic.renderAds('You Win!','win');
         statistic.renderStatistic();
@@ -347,7 +363,7 @@ export class Game2048{
         
     }
 
-    copyPreviousBoard(row){
+    copyPreviousBoard(){
         if(this.isPreviousBoardCopied){
             return;
         }
@@ -378,10 +394,10 @@ export class Game2048{
                         square.classList.add(`game_2048-active-square-${square.innerText}`)
                     },50)
 
-                }else{
-
                 }
             })
+            this.animateBoard();
+            moveBack.play();
         })
         this.ArrayOfSquares=this.previousMove.positions;
         this.lastSquare.remove();
@@ -395,6 +411,9 @@ export class Game2048{
         if(this.isChange){
             this.isNextSquareShow=false;
             this.lastSquare=this.createActiveSquare(this.choseRandomActiveSquare(),this.choseRandomValue());
+            beep.play();
+        }else{
+            wrongBeep.play()
         }
     }
 
@@ -461,10 +480,10 @@ export class Game2048{
 
         switch(max){
             case topLeft:
-            this.containerSquares.dataset.side = "bottom-left" ;
+            this.containerSquares.dataset.side = "bottom-right" ;
             break;
             case topRight:
-                this.containerSquares.dataset.side = "bottom-right";
+                this.containerSquares.dataset.side = "bottom-left";
                 break;
             case bottomLeft:
                 this.containerSquares.dataset.side = "top-right";

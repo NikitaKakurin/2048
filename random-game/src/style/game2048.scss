@@ -23,21 +23,22 @@
     row-gap: 20px;
     box-shadow: 0;
     transition: box-shadow 0.5s;
+    
 }
 
 .game__2048-container[data-side = 'top-left']{
- box-shadow: rgb(167, 159, 159) -30px -30px 20px,
+ box-shadow: rgb(0,0,0, .6) -30px -30px 20px,
 }
 .game__2048-container[data-side = 'top-right']{
-    box-shadow: rgb(167, 159, 159) 30px -30px 20px,
+    box-shadow: rgb(0,0,0, .6) 30px -30px 20px,
 }
 
 .game__2048-container[data-side = 'bottom-left']{
-    box-shadow: rgb(167, 159, 159) -30px 30px 20px,;
+    box-shadow: rgb(0,0,0, .6) -30px 30px 20px,;
 }
 
 .game__2048-container[data-side = 'bottom-right']{
-    box-shadow: rgb(167, 159, 159) 30px 30px 20px;
+    box-shadow: rgb(0,0,0, .6) 30px 30px 20px;
 }
 
 
