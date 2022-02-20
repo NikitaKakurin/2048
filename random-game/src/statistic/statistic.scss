@@ -1,6 +1,6 @@
 @import '../style/variables.scss';
 
-.game-statistic{
+.game__statistic{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -15,20 +15,22 @@
     opacity: 0;
     background: linear-gradient(to bottom, #2f519b, #7999cf, #2f519b);
     overflow: hidden;
+    color: #1c1c1c;
     transition: width .5s ease-in,
                 height .5s ease-in,
                 opacity .8s ease-in,
-                z-index .5s ease-in,;
+                z-index .5s ease-in,
+                transform 1s ease-in,;
 }
 
-.game-statistic--show{
+.game__statistic--show{
     width: 100vw;
     height: 100vh;
     z-index: 5;
     opacity: 1;
 }
 
-.game-statistic-container{
+.game__statistic-container{
     position: relative;
     display: flex;
     flex-direction: column;
@@ -37,7 +39,7 @@
     
 }
 
-.game-statistic-close-btn{
+.game__statistic-close-btn{
     position: absolute;
     padding: 0;
     top: 25px;
@@ -52,11 +54,11 @@
     background-size: 70px;
 }
 
-.game-statistic-close-btn:hover{
+.game__statistic-close-btn:hover{
     filter: invert(50%) sepia(78%) saturate(4479%) hue-rotate(11deg) brightness(106%) contrast(94%);
 }
 
-.game-ads{
+.game__ads{
     width: 700px;
     height: 100px;
     display: inline-flex;
@@ -64,26 +66,33 @@
     align-items: center;
     font-size: 50px;
     font-weight: 700;
+}
+.game__ads[data-ads="gameOver"]{
     font-family: 'Nosifer', cursive;
     color:red;
 }
 
+.game__ads[data-ads="win"]{
+    font-family: 'Merriweather', serif;
+    color:rgb(102, 255, 0);
+}
 
 
-.game-statistic-maximum,
-.game-statistic-item,
-.game-statistic-current,
-.game-statistic-head,
-.game-statistic-title{
+
+.game__statistic-maximum,
+.game__statistic-item,
+.game__statistic-current,
+.game__statistic-head,
+.game__statistic-title{
     @include displayFlexStat();
     height: 50px;
 }
 
-.game-statistic-title{
+.game__statistic-title{
     font-family: 'Merriweather', serif;
 }
 
-.game-statistic-number{
+.game__statistic-number{
     width: 100px;
     height: 50px;
     border: 1px solid #1c1c1c;
@@ -91,10 +100,10 @@
     justify-content: center;
     align-items: center;
 }
-.game-statistic-value,
-.game-statistic-score,
-.game-statistic-steps,
-.game-statistic-time{
+.game__statistic-value,
+.game__statistic-score,
+.game__statistic-steps,
+.game__statistic-time{
     display: inline-flex;
     justify-content: center;
     align-items: center;

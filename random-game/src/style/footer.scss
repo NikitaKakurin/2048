@@ -1,0 +1,34 @@
+@import './variables.scss';
+.game__footer{
+    width: 100vw;
+    height: 50px;
+
+}
+
+.game__footer-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 100px ;
+}
+
+.game__footer-container-github{
+    display: flex;
+    flex-direction: row;
+    gap : 20px;
+    align-items: center;
+}
+
+.game__footer-container-github-link,
+.game__footer-container-rsschool-link{
+    text-decoration: none;
+    color: inherit;
+}
+
+.game__footer-container-github-link:hover,
+.game__footer-container-rsschool-link:hover{
+    color: #d38013;
+}

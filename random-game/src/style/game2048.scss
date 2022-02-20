@@ -1,6 +1,14 @@
 @import './variables.scss';
 
-.game_2048-container{
+.game__2048-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 700px;
+    width: 500px;
+}
+
+.game__2048-container{
     position: relative;
     padding: 20px;
     width: 100%;
@@ -13,9 +21,28 @@
     align-items: center;
     flex-wrap: wrap;
     row-gap: 20px;
+    box-shadow: 0;
+    transition: box-shadow 0.5s;
 }
 
-.game_2048-item-square{
+.game__2048-container[data-side = 'top-left']{
+ box-shadow: rgb(167, 159, 159) -30px -30px 20px,
+}
+.game__2048-container[data-side = 'top-right']{
+    box-shadow: rgb(167, 159, 159) 30px -30px 20px,
+}
+
+.game__2048-container[data-side = 'bottom-left']{
+    box-shadow: rgb(167, 159, 159) -30px 30px 20px,;
+}
+
+.game__2048-container[data-side = 'bottom-right']{
+    box-shadow: rgb(167, 159, 159) 30px 30px 20px;
+}
+
+
+
+.game__2048-item-square{
     width: 100%;
     max-width: 100px;
     height: 100%;
@@ -23,20 +50,12 @@
     background-color: $containerBgColor;
 }
 
-.game_new-game-btn{
-    font-size: inherit;
-    font-family: inherit;
-    width: 150px;
-    height: 50px;
-    border: none;
-    border-radius: 5px;
-    background-color: bisque;
-    margin-bottom: 100px;
-    box-shadow: 7px 7px 7px #1c1c1c;
-}
-
-.game_new-game-btn:hover{
-    box-shadow: 3px 3px 3px #1c1c1c;
+.game__2048-container-active-square{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .game_2048-active-square{
@@ -49,6 +68,7 @@
     align-items: center;
     transition: top 0.3s ease, left 0.3s ease, opacity 0.1s ease;
     user-select: none;
+    color: #1c1c1c;
 
     &-4{
         background-color: $color4;
@@ -167,10 +187,3 @@
     }
 }
 
-.game_2048-container-active-square{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}

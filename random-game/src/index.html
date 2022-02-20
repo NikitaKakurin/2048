@@ -11,49 +11,53 @@
 </head>
 <body>
     <div class="game-container">
-        <button class="game-container__show-stat-btn">Show Statistic</button>
-        <button class="game-container__step-back">Step Back</button>
-        <div class="game-statistic">
-            <div class="game-statistic-container">
-                <button class="game-statistic-close-btn"></button>
-                <div class="game-ads"></div>
-                <div class="game-statistic-title">
+        <header class="game__header">
+            <h1 class="game__title">2048</h1>
+            <div class="game__2048-container-parameters">
+                <div class="game__2048-max-score">
+                    <span class="game__2048-max-score-declaration">Maximum score: </span>
+                    <span class="game__2048-max-score-value"></span>
+                </div>
+                <div class="game__2048-score">
+                    <span class="game__2048-score-declaration">Score: </span>
+                    <span class="game__2048-score-value"></span>
+                </div>
+                 <div class="game__2048-time">
+                    <span class="game__2048-time-declaration">Time: </span><span class="game__2048-time-value"></span>
+                </div>
+            </div>
+            <button class="game-container__show-stat-btn btn">Show Statistic</button>
+        </header>
+
+        <div class="game__statistic">
+            <div class="game__statistic-container">
+                <button class="game__statistic-close-btn"></button>
+                <div class="game__ads"></div>
+                <div class="game__statistic-title">
                     <span>Statistic:</span>
                 </div>
-                <div class="game-statistic-head">
-                    <div class="game-statistic-number">№</div>
-                    <div class="game-statistic-score">Score</div>
-                    <div class="game-statistic-value">Max value</div>
-                    <div class="game-statistic-steps">Steps</div>
-                    <div class="game-statistic-time">Time</div>
+                <div class="game__statistic-head">
+                    <div class="game__statistic-number">№</div>
+                    <div class="game__statistic-score">Score</div>
+                    <div class="game__statistic-value">Max value</div>
+                    <div class="game__statistic-steps">Steps</div>
+                    <div class="game__statistic-time">Time</div>
                 </div>
-                <div class="game-statistic-current-and-max">
+                <div class="game__statistic-current-and-max">
 
                 </div>
-                <div class="game-statistic-title">
+
+                <div class="game__statistic-title">
                     <span>Last games</span>
                 </div>
-                <div class="game-statistic-history">
+
+                <div class="game__statistic-history">
                     
                 </div>
             </div>
         </div>
 
-        <div class="game_2048-score__container">
-            <div>
-                <span class="game_2048-max-score__declaration">Maximum score: </span>
-                <span class="game_2048-max-score__value"></span>
-            </div>
-            <div>
-                <span class="game_2048-score__declaration">Score: </span>
-                <span class="game_2048-score__value"></span>
-            </div>
-             <div class="game_2048-timer__container">
-                <span class="game_2048-time__declaration">Time: </span><span class="game_2048-time__value"></span>
-            </div>
-        </div>
-
-        <div class ="game_2048-select-game">
+        <!-- <div class ="game__2048-select-game">
             <select name="type" id="type">
                 <option value="normal">normal</option>
                 <option value="forTime">playing for time</option>
@@ -64,32 +68,52 @@
                 <option value="hard">hard</option>
                 <option value="nightmare">nightmare</option>
             </select>
-        </div>
+        </div> -->
 
         <button class="move up">UP</button>
         <button class="move down">DOWN</button>
         <button class="move left">LEFT</button>
         <button class="move right">RIGHT</button>
-        <button class="game_new-game-btn">New game</button>
-        <div class="game_2048-container">
-            <div class="game_2048-container-active-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
-            <div class="game_2048-item-square"></div>
+
+        <div class="game__2048-wrapper">
+
+        
+            <button class="game__new-game-btn btn">New game</button>
+            <div class="game__buttons-container">
+                <button class="game-container__step-back btn"></div>
+
+
+            <div class="game__2048-container">
+                <div class="game__2048-container-active-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+                <div class="game__2048-item-square"></div>
+            </div>
+
         </div>
+        <footer class="game__footer">
+            <div class="game__footer-container">
+                <div class="game__footer-container-github">
+                    <span>©</span>
+                    <span>2022</span>
+                    <a class="game__footer-container-github-link" href="https://github.com/NikitaKakurin">github</a>
+                </div>
+                <a class="game__footer-container-rsschool-link" href="https://rs.school/js-stage0/">Rolling Scopes School</a>
+            </div>
+        </footer>
     </div>
 </body>
 </html>

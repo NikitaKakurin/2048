@@ -1,17 +1,20 @@
 import './style/normalize.css';
 import './style/style.scss'; 
+import './style/header.scss'
 import './style/game2048.scss';
 import './statistic/statistic.scss';
 import './ads/ads.scss';
+import './style/buttons.scss';
+import './style/footer.scss';
 
 import { Game2048 } from './Script2048/g2048';
 import Statistic from './statistic/statistic'
 let log = (param)=> console.log(param);
 
-const btnNewGame = document.querySelector('game_new-game-btn');
+const btnNewGame = document.querySelector('game__new-game-btn');
 
-const statistic = new Statistic('.game-statistic')
-const g2048 = new Game2048('.game_2048-container');
+const statistic = new Statistic('.game__statistic')
+const g2048 = new Game2048('.game__2048-container');
 
 document.addEventListener('click', handleClick);
 document.addEventListener('mousedown', handleMouseDown);
@@ -35,7 +38,7 @@ function handleKeyDown(event){
 function handleMouseDown(event){
     const target =  event.target
 
-    if(target.closest('.game_2048-container')){
+    if(target.closest('.game__2048-container')){
         getStartSwipe(event);
     }
 }
@@ -43,7 +46,7 @@ function handleMouseDown(event){
 
 function handleClick(event){
     const target =  event.target
-    if(target.classList.contains('game_new-game-btn')){
+    if(target.classList.contains('game__new-game-btn')){
         g2048.initGame();
     }
 
@@ -65,7 +68,7 @@ function handleClick(event){
         return;
     }
 
-    if(target.classList.contains('game-statistic-close-btn')){
+    if(target.classList.contains('game__statistic-close-btn')){
         statistic.hideStatistic();
     }
 

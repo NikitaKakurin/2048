@@ -1,0 +1,35 @@
+@import './variables.scss';
+
+.game__header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    padding-left: 100px;
+    padding-right: 50px;
+}
+
+.game__title{
+    font-family: 'Merriweather', serif;
+    font-size: 60px;
+}
+
+.game__2048-container-parameters{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+}
+
+.game__2048-max-score-declaration,
+.game__2048-time-declaration,
+.game__2048-max-score-value,
+.game__2048-time-value,
+.game__2048-score-value,
+.game__2048-score-declaration{
+    font-family: 'Merriweather', serif;
+    font-size: 30px;
+    font-weight: 700;
+}

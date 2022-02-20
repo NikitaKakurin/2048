@@ -4,6 +4,7 @@ html{
     font-size: 20px;
     font-weight: 400;
     font-family: 'Inter', sans-serif;
+    color: #fbf6f6;
 }
 
 *{
@@ -16,29 +17,13 @@ html{
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    background-color: $containerBgColor;
-}
-
-
-
-.game_2048-score__container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.game_2048-max-score__declaration,
-.game_2048-time__declaration,
-.game_2048-max-score__value,
-.game_2048-time__value,
-.game_2048-score__value,
-.game_2048-score__declaration{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 40px;
-    font-weight: 700;
+    background-color: #1b3762;
+    background-image: url('../assets/img/chirayu-sharma-27heHQl2JtY-unsplash.jpg');
+    background-position: 0 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 
 .move{

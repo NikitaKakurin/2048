@@ -5,12 +5,12 @@ import {statistic} from '../index';
 export class Game2048{
     constructor(selector){
         this.board = document.querySelector(selector);
-        this.squares = document.querySelectorAll('.game_2048-item-square');
-        this.containerSquares = document.querySelector('.game_2048-container');
-        this.containerActiveSquares = document.querySelector('.game_2048-container-active-square');
-        this.scoreTable = document.querySelector('.game_2048-score__value');
-        this.gameTime = document.querySelector('.game_2048-time__value');
-        this.maxScore = document.querySelector('.game_2048-max-score__value');
+        this.squares = document.querySelectorAll('.game__2048-item-square');
+        this.containerSquares = document.querySelector('.game__2048-container');
+        this.containerActiveSquares = document.querySelector('.game__2048-container-active-square');
+        this.scoreTable = document.querySelector('.game__2048-score-value');
+        this.gameTime = document.querySelector('.game__2048-time-value');
+        this.maxScore = document.querySelector('.game__2048-max-score-value');
         this.countInRow = Math.sqrt(this.squares.length);
         this.squaresCoords = [];
         this.isNextSquareShow=false;
@@ -64,14 +64,14 @@ export class Game2048{
     initGameOver(){
         this.isGameGoing = false;
         this.saveLocalStorage();
-        statistic.renderAds('Game over');
+        statistic.renderAds('Game over','gameOver');
         statistic.renderStatistic();
         statistic.showStatistic();
     }
 
     initGet2048(){
         this.setPropertyGame()
-        statistic.renderAds('You Win!');
+        statistic.renderAds('You Win!','win');
         statistic.renderStatistic();
         statistic.showStatistic();
     }
@@ -423,7 +423,7 @@ export class Game2048{
         if(isMergeSquare){
             currentSquare.dataset.value = (+currentSquare.dataset.value) * 2;
             this.value = Math.max(+currentSquare.dataset.value, +this.value)
-            if(this.value === 2048 && this.isNotGet2048){
+            if(this.value === 16 && this.isNotGet2048){
                 this.initGet2048();
                 this.isNotGet2048 = false;
             }
@@ -432,6 +432,51 @@ export class Game2048{
         }
         currentSquare.style.top = this.squaresCoords[targetRow][targetColumn].top + 'px';
         currentSquare.style.left = this.squaresCoords[targetRow][targetColumn].left + 'px';
+        this.animateBoard()
+    }
+
+    animateBoard(){
+        debugger
+        const topLeft = this.checkValue(this.ArrayOfSquares[0][0])+
+                        this.checkValue(this.ArrayOfSquares[0][1])+
+                        this.checkValue(this.ArrayOfSquares[1][0])+
+                        this.checkValue(this.ArrayOfSquares[1][1]);
+
+        const topRight = this.checkValue(this.ArrayOfSquares[0][2])+
+                            this.checkValue(this.ArrayOfSquares[0][2])+
+                            this.checkValue(this.ArrayOfSquares[1][2])+
+                            this.checkValue(this.ArrayOfSquares[1][3]);
+
+        const bottomLeft = this.checkValue(this.ArrayOfSquares[2][0])+
+                            this.checkValue(this.ArrayOfSquares[2][1])+
+                            this.checkValue(this.ArrayOfSquares[3][0])+
+                            this.checkValue(this.ArrayOfSquares[3][1]);
+
+        const bottomRight = this.checkValue(this.ArrayOfSquares[2][2])+
+                            this.checkValue(this.ArrayOfSquares[2][3])+
+                            this.checkValue(this.ArrayOfSquares[3][2])+
+                            this.checkValue(this.ArrayOfSquares[3][3]);
+        
+        let max = Math.max(topLeft,topRight,bottomLeft,bottomRight);
+
+        switch(max){
+            case topLeft:
+            this.containerSquares.dataset.side = "bottom-left" ;
+            break;
+            case topRight:
+                this.containerSquares.dataset.side = "bottom-right";
+                break;
+            case bottomLeft:
+                this.containerSquares.dataset.side = "top-right";
+                break;
+            case bottomRight:
+                this.containerSquares.dataset.side = "top-left";
+                break;
+        }
+
+    }
+    checkValue(square){
+        return (square)? +square.innerText:0;
     }
 
     changeColor(square){

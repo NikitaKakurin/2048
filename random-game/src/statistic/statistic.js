@@ -3,25 +3,26 @@ import {g2048}  from '../index.js';
 class Statistic{
     constructor(selector){
         this.container = document.querySelector(selector);
-        this.ads = this.container.querySelector('.game-ads');
-        this.currentGame = this.container.querySelector('.game-statistic-current');
-        this.maxGame = this.container.querySelector('.game-statistic-maximum');
-        this.history = this.container.querySelector('.game-statistic-history');
-        this.currAndMax = this.container.querySelector('.game-statistic-current-and-max');
-        this.gameAds = this.container.querySelector('.game-ads');
+        this.ads = this.container.querySelector('.game__ads');
+        this.currentGame = this.container.querySelector('.game__statistic-current');
+        this.maxGame = this.container.querySelector('.game__statistic-maximum');
+        this.history = this.container.querySelector('.game__statistic-history');
+        this.currAndMax = this.container.querySelector('.game__statistic-current-and-max');
+        this.gameAds = this.container.querySelector('.game__ads');
     }
 
     showStatistic(){
-        this.container.classList.add('game-statistic--show');
+        this.container.classList.add('game__statistic--show');
     }
 
     hideStatistic(){
-        this.container.classList.remove('game-statistic--show');
+        this.container.classList.remove('game__statistic--show');
         this.renderAds("");
     }
 
-    renderAds(value){
+    renderAds(value, data){
         this.gameAds.innerHTML=value;
+        this.gameAds.dataset.ads = data;
     }
 
     renderStatistic(){
@@ -58,12 +59,12 @@ class Statistic{
 
     renderOneRow(number, score, value, steps, time){
 debugger
-        const statisticItem = createOneElement('div','game-statistic-item');
-        const statisticNumber = createOneElement('div','game-statistic-number',number);
-        const statisticScore = createOneElement('div','game-statistic-score',score);
-        const statisticValue = createOneElement('div','game-statistic-value',value);
-        const statisticSteps = createOneElement('div','game-statistic-steps',steps);
-        const statisticTime = createOneElement('div','game-statistic-time',time);
+        const statisticItem = createOneElement('div','game__statistic-item');
+        const statisticNumber = createOneElement('div','game__statistic-number',number);
+        const statisticScore = createOneElement('div','game__statistic-score',score);
+        const statisticValue = createOneElement('div','game__statistic-value',value);
+        const statisticSteps = createOneElement('div','game__statistic-steps',steps);
+        const statisticTime = createOneElement('div','game__statistic-time',time);
 
         statisticItem.append(statisticNumber,
                             statisticScore, 
