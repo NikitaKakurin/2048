@@ -1,16 +1,19 @@
 .btn{
     font-size: inherit;
     font-family: inherit;
-    width: 150px;
     height: 50px;
     border: none;
     border-radius: 5px;
     background-color: bisque;
-    box-shadow: 7px 7px 7px #1c1c1c;
+    box-shadow: 17px 17px 17px #1c1c1c;
+    width: 100px;
+    transition: all 0.3s ease-in;
+    cursor: pointer;
 }
 
 .btn:hover{
     box-shadow: 3px 3px 3px #1c1c1c;
+    color: #d38013;
 }
 
 .game__buttons-container{
@@ -26,4 +29,9 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: 50px;
+}
+
+.game__new-game-btn{
+    margin-top: 50px;
+    width: 150px;
 }

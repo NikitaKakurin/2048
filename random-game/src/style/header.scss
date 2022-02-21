@@ -18,9 +18,9 @@
 
 .game__2048-container-parameters{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
-    width: 50%;
+    width: 100%;
 }
 
 .game__2048-max-score-declaration,
@@ -32,4 +32,12 @@
     font-family: 'Merriweather', serif;
     font-size: 30px;
     font-weight: 700;
+}
+
+
+.game__2048-select-game{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 100px;
 }

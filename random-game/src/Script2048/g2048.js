@@ -28,6 +28,7 @@ export class Game2048{
         this.isNextSquareShow=false;
         this.isGameGoing = false;
         this.isNotGet2048 = true;
+        this.gameLimit = 16;
 
         this.prevPropertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
         this.propertyGame = localStorage.getItem('propertyGame')?JSON.parse(localStorage.getItem('propertyGame')):
@@ -35,6 +36,22 @@ export class Game2048{
         this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
                             {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0},'history':[]};
                    
+
+        this.previousPosition=localStorage.getItem('PositionBeforeUnload')?JSON.parse(localStorage.getItem('PositionBeforeUnload')):null;
+        this.renderAfterLoad();                                                               
+    }
+    
+    setLocalStorageLastPosition(){
+        clearInterval(this.timerInterval);
+        localStorage.setItem('PositionBeforeUnload', JSON.stringify(this.previousMove));
+        this.setPropertyGame();
+        localStorage.setItem('PropertiesBeforeUnload', JSON.stringify(this.propertyGame));
+        localStorage.setItem('beforeRestartTime', JSON.stringify(this.totalTime));
+    } 
+
+    initGameData(){
+        this.isGameGoing = true;
+        this.containerActiveSquares.innerHTML = "";
         this.previousMove = {"positions":[
             [null, null, null, null],
             [null, null, null, null],
@@ -45,73 +62,79 @@ export class Game2048{
             [null, null, null, null],
             [null, null, null, null],
             [null, null, null, null],
-        ]}                    
+        ]}
+
         this.ArrayOfSquares = [
             [null, null, null, null],
             [null, null, null, null],
             [null, null, null, null],
             [null, null, null, null],
-        ]                    
+        ]
+
         this.getIndexesEmptySquares()
         this.setCoords()
+
+        this.restartTime = +localStorage.getItem('beforeRestartTime')?+localStorage.getItem('beforeRestartTime') : 0;
         this.initTime = Date.now();
+        this.timerIntervalAfterRestart = setInterval(() => {
+            this.currentTime = Date.now()
+            this.totalTime = Math.floor((this.currentTime - this.initTime)/1000)+this.restartTime
+            this.gameTime.innerText = this.calcTime(this.totalTime);
+        }, 1000);
+
         this.squareSizes = {
             'width':this.squares[0].clientWidth,
             'height':this.squares[0].clientHeight,
-            };
-
-        this.previousPosition=localStorage.getItem('PositionBeforeUnload')?JSON.parse(localStorage.getItem('PositionBeforeUnload')):null;
-        this.renderAfterLoad();                                                               
+        };
     }
-    
-    setLocalStorageLastPosition(){
-        localStorage.setItem('PositionBeforeUnload', JSON.stringify(this.previousMove));
-        this.setPropertyGame();
-        localStorage.setItem('PropertiesBeforeUnload', JSON.stringify(this.propertyGame));
-    } 
 
     renderAfterLoad(){
         if(!this.previousPosition){
             return;
         }
-
+        this.initGameData();
         this.previousPosition.values.forEach((row,indexRow)=>{
             row.forEach((value,indexColumn)=>{
                 if(value){
-                    this.createSquareFromUpdate({'row':indexRow, 'column':indexColumn},value);
+                    this.createSquare({'row':indexRow, 'column':indexColumn},value);
                 }
             })
-            this.maximumScore = 0||this.statisticObj.maximum.score;
-            this.maxScore.innerHTML = this.maximumScore;
+
         })
         
+        this.maximumScore = 0||this.statisticObj.maximum.score;
+        this.maxScore.innerHTML = this.maximumScore;
+        this.isNextSquareShow=true;
+
         this.score = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).score : 0;
         this.steps = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).steps : 0;
         this.value = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).value : 0;
+        if(this.value >=  this.gameLimit ){
+            this.isNotGet2048=false;
+        }else{
+            this.isNotGet2048=true;
+        }
         this.scoreTable.innerText = this.score;
         this.gameTime.innerHTML = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).time : 0;
     }
 
-    createSquareFromUpdate(squarePlace, value){
-        let ASquare = document.createElement('div');
-        ASquare.innerText = value;
-        ASquare.dataset.value = value;
-        ASquare.classList.add('game_2048-active-square')
-        if(value!==4){
-            ASquare.classList.add(`game_2048-active-square-${value}`)
+    createSquare(squarePlace, value){
+        let aSquare = document.createElement('div');
+        aSquare.innerText = value;
+        aSquare.dataset.value = value;
+        aSquare.classList.add('game_2048-active-square')
+        if(value!==2){
+            aSquare.classList.add(`game_2048-active-square-${value}`)
         }
-        ASquare.style.width = this.squareSizes.width + 'px';
-        ASquare.style.height = this.squareSizes.height + 'px';
-        ASquare.style.top = this.squaresCoords[squarePlace.row][squarePlace.column].top + 'px';
-        ASquare.style.left = this.squaresCoords[squarePlace.row][squarePlace.column].left + 'px';
-        ASquare.dataset.isCanChange = "true";
-        this.ArrayOfSquares[squarePlace.row][squarePlace.column]=ASquare;
+        aSquare.style.width = this.squareSizes.width + 'px';
+        aSquare.style.height = this.squareSizes.height + 'px';
+        aSquare.style.top = this.squaresCoords[squarePlace.row][squarePlace.column].top + 'px';
+        aSquare.style.left = this.squaresCoords[squarePlace.row][squarePlace.column].left + 'px';
+        aSquare.dataset.isCanChange = "true";
+        this.ArrayOfSquares[squarePlace.row][squarePlace.column]=aSquare;
         
-        this.containerActiveSquares.append(ASquare);
-        this.isNextSquareShow=true;
-
-       
-        
+        this.containerActiveSquares.append(aSquare);
+        return aSquare
     }
 
     setPropertyGame(){
@@ -175,54 +198,24 @@ export class Game2048{
         {'steps':0,'score':0, 'time':'00:00', 'value':0};
         this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
                             {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0},'history':[]};
-        
+                            
         if(this.isGameGoing){
             this.saveLocalStorage();
         }
 
-        this.isGameGoing=true;
-        this.isNotGet2048=true;
+        localStorage.setItem('beforeRestartTime', "0");
+        this.totalTime = 0;
+        this.initGameData();
+
+        
         this.gameTime.innerHTML = '00:00';
         this.score = 0;
         this.steps = 0;
         this.value = 0;
         this.maximumScore = 0||this.statisticObj.maximum.score;
         this.maxScore.innerHTML = this.maximumScore;
-
-        this.setCoords()
-        this.initTime = Date.now();
-        // this.timer = 0;
-        this.timerInterval = setInterval(() => {
-            let currentTime = Date.now()
-            this.gameTime.innerText = this.calcTime(Math.floor((currentTime - this.initTime)/1000));
-        }, 1000);
-        
         this.scoreTable.innerText = this.score;
-        this.squareSizes = {
-            'width':this.squares[0].clientWidth,
-            'height':this.squares[0].clientHeight,
-            };
-
-
-        this.containerActiveSquares.innerHTML="";
-        this.ArrayOfSquares = [
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-        ]
-
-        this.previousMove = {"positions":[
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-        ],"values":[
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-        ]}
+        this.isNotGet2048 = true;
 
         this.createActiveSquare(this.choseRandomActiveSquare(),this.choseRandomValue())
     }
@@ -271,36 +264,19 @@ export class Game2048{
         return (Math.random()<0.1)?4:2;
     }
     createActiveSquare(squarePlace, value){
-        let ASquare = document.createElement('div');
-        ASquare.innerText = value;
-        ASquare.dataset.value = value;
-        ASquare.classList.add('game_2048-active-square')
-        if(value===4){
-            ASquare.classList.add(`game_2048-active-square-4`)
-        }
-        ASquare.style.width = this.squareSizes.width + 'px';
-        ASquare.style.height = this.squareSizes.height + 'px';
-        ASquare.style.top = this.squaresCoords[squarePlace.row][squarePlace.column].top + 'px';
-        ASquare.style.left = this.squaresCoords[squarePlace.row][squarePlace.column].left + 'px';
-        ASquare.dataset.isCanChange = "true";
-        this.ArrayOfSquares[squarePlace.row][squarePlace.column]=ASquare;
-        
-        this.containerActiveSquares.append(ASquare);
-        ASquare.style.opacity=0;
+        let aSquare = this.createSquare(squarePlace, value)
+        aSquare.style.opacity=0;
         this.steps++;
         let delayBeforeShowASquare = setTimeout(()=>{
-            ASquare.style.opacity=1;
+            aSquare.style.opacity=1;
             this.isNextSquareShow=true;
             this.isPreviousBoardCopied = false;
             if(this.arrayOfEmpty.length==1 && this.isGameOver()){
                 setTimeout(()=>this.initGameOver(),200)
             }
         }, 300);
-        return ASquare;
+        return aSquare;
     }
-
-
-
 
     isGameOver(){
         for(let row = 0; row<this.countInRow; row++){
@@ -457,6 +433,10 @@ export class Game2048{
     }
 
     renderPreviousBoard(){
+        if(!this.lastSquare){
+            wrongBeep.play();
+            return;
+        }
         this.previousMove.positions.forEach((row,indexRow)=>{
             row.forEach((square, indexColumn)=>{
                 if(square){
@@ -478,6 +458,7 @@ export class Game2048{
         })
         this.ArrayOfSquares=this.previousMove.positions;
         this.lastSquare.remove();
+        this.lastSquare = null;
         this.score=this.prevPropertyGame.score;
         this.value=this.prevPropertyGame.value;
         this.scoreTable.innerText=this.score;
@@ -519,7 +500,7 @@ export class Game2048{
         if(isMergeSquare){
             currentSquare.dataset.value = (+currentSquare.dataset.value) * 2;
             this.value = Math.max(+currentSquare.dataset.value, +this.value)
-            if(this.value === 16 && this.isNotGet2048){
+            if(this.value ===  this.gameLimit && this.isNotGet2048){
                 this.initGet2048();
                 this.isNotGet2048 = false;
             }

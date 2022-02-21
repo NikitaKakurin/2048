@@ -26,7 +26,19 @@
                     <span class="game__2048-time-declaration">Time: </span><span class="game__2048-time-value"></span>
                 </div>
             </div>
-            <button class="game-container__show-stat-btn btn">Show Statistic</button>
+            <div class ="game__2048-select-game">
+                <button class="game-container__show-stat-btn btn">Statistic</button>
+                <select name="type" id="type">
+                    <option value="normal">normal</option>
+                    <option value="forTime">playing for time</option>
+                </select>
+                <select name="difficult" id="difficult">
+                    <option value="easy">easy</option>
+                    <option value="normal">normal</option>
+                    <option value="hard">hard</option>
+                    <option value="nightmare">nightmare</option>
+                </select>
+            </div>
         </header>
 
         <div class="game__statistic">
@@ -57,18 +69,7 @@
             </div>
         </div>
 
-        <!-- <div class ="game__2048-select-game">
-            <select name="type" id="type">
-                <option value="normal">normal</option>
-                <option value="forTime">playing for time</option>
-            </select>
-            <select name="difficult" id="difficult">
-                <option value="easy">easy</option>
-                <option value="normal">normal</option>
-                <option value="hard">hard</option>
-                <option value="nightmare">nightmare</option>
-            </select>
-        </div> -->
+
 
         <!-- <button class="move up">UP</button>
         <button class="move down">DOWN</button>
@@ -78,7 +79,7 @@
         <div class="game__2048-wrapper">
 
         
-            <button class="game__new-game-btn btn">New game</button>
+            
             <div class="game__buttons-container">
                 <button class="game-container__step-back btn"></div>
 
@@ -102,7 +103,7 @@
                 <div class="game__2048-item-square"></div>
                 <div class="game__2048-item-square"></div>
             </div>
-
+            <button class="game__new-game-btn btn">New game</button>
         </div>
         <footer class="game__footer">
             <div class="game__footer-container">
