@@ -28,15 +28,92 @@ export class Game2048{
         this.isNextSquareShow=false;
         this.isGameGoing = false;
         this.isNotGet2048 = true;
-        
-        this.propertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
+
+        this.prevPropertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
+        this.propertyGame = localStorage.getItem('propertyGame')?JSON.parse(localStorage.getItem('propertyGame')):
+        {'steps':0,'score':0, 'time':'00:00', 'value':0};
         this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
                             {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0},'history':[]};
-        
-        // this.previousPosition=localStorage.getItem('PositionBeforeUnload')?JSON.parse(localStorage.getItem('PositionBeforeUnload')):null;
-                                                                       
+                   
+        this.previousMove = {"positions":[
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+        ],"values":[
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+        ]}                    
+        this.ArrayOfSquares = [
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+        ]                    
+        this.getIndexesEmptySquares()
+        this.setCoords()
+        this.initTime = Date.now();
+        this.squareSizes = {
+            'width':this.squares[0].clientWidth,
+            'height':this.squares[0].clientHeight,
+            };
+
+        this.previousPosition=localStorage.getItem('PositionBeforeUnload')?JSON.parse(localStorage.getItem('PositionBeforeUnload')):null;
+        this.renderAfterLoad();                                                               
     }
     
+    setLocalStorageLastPosition(){
+        localStorage.setItem('PositionBeforeUnload', JSON.stringify(this.previousMove));
+        this.setPropertyGame();
+        localStorage.setItem('PropertiesBeforeUnload', JSON.stringify(this.propertyGame));
+    } 
+
+    renderAfterLoad(){
+        if(!this.previousPosition){
+            return;
+        }
+
+        this.previousPosition.values.forEach((row,indexRow)=>{
+            row.forEach((value,indexColumn)=>{
+                if(value){
+                    this.createSquareFromUpdate({'row':indexRow, 'column':indexColumn},value);
+                }
+            })
+            this.maximumScore = 0||this.statisticObj.maximum.score;
+            this.maxScore.innerHTML = this.maximumScore;
+        })
+        
+        this.score = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).score : 0;
+        this.steps = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).steps : 0;
+        this.value = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).value : 0;
+        this.scoreTable.innerText = this.score;
+        this.gameTime.innerHTML = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).time : 0;
+    }
+
+    createSquareFromUpdate(squarePlace, value){
+        let ASquare = document.createElement('div');
+        ASquare.innerText = value;
+        ASquare.dataset.value = value;
+        ASquare.classList.add('game_2048-active-square')
+        if(value!==4){
+            ASquare.classList.add(`game_2048-active-square-${value}`)
+        }
+        ASquare.style.width = this.squareSizes.width + 'px';
+        ASquare.style.height = this.squareSizes.height + 'px';
+        ASquare.style.top = this.squaresCoords[squarePlace.row][squarePlace.column].top + 'px';
+        ASquare.style.left = this.squaresCoords[squarePlace.row][squarePlace.column].left + 'px';
+        ASquare.dataset.isCanChange = "true";
+        this.ArrayOfSquares[squarePlace.row][squarePlace.column]=ASquare;
+        
+        this.containerActiveSquares.append(ASquare);
+        this.isNextSquareShow=true;
+
+       
+        
+    }
+
     setPropertyGame(){
         this.propertyGame = {}
         this.propertyGame.time = this.gameTime.innerText;

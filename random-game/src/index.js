@@ -20,12 +20,12 @@ document.addEventListener('click', handleClick);
 document.addEventListener('mousedown', handleMouseDown);
 document.addEventListener('keydown', handleKeyDown);
 
-// window.addEventListener('beforeunload', handleUnload);
+window.addEventListener('beforeunload', handleUnload);
 
-// function handleUnload(event){
-//     g2048.copyPreviousBoard();
-//     g2048.setLocalStorageLastPosition();
-// }
+function handleUnload(event){
+    g2048.copyPreviousBoard();
+    g2048.setLocalStorageLastPosition();
+}
 
 function handleKeyDown(event){
     if(event.code==="KeyW" || event.code==="ArrowUp"){
