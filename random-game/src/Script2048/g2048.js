@@ -14,6 +14,8 @@ const moveBack = new Audio(metkir);
 const mode = document.querySelector('.game__difficult');
 
 
+
+
 export class Game2048{
     constructor(selector){
         this.board = document.querySelector(selector);
@@ -208,6 +210,7 @@ export class Game2048{
             this.saveLocalStorage();
         }
 
+        this.mode = mode.value;
         localStorage.setItem('beforeRestartTime', "0");
         this.totalTime = 0;
         this.initGameData();
