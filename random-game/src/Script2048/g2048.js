@@ -11,7 +11,7 @@ const victory = new Audio(flawlessVictory);
 const gameOverSound = new Audio(gameOver);
 const wrongBeep = new Audio(wrong);
 const moveBack = new Audio(metkir);
-
+const mode = document.querySelector('.game__difficult');
 
 
 export class Game2048{
@@ -29,6 +29,7 @@ export class Game2048{
         this.isGameGoing = false;
         this.isNotGet2048 = true;
         this.gameLimit = 16;
+        this.mode = 'normal';
 
         this.prevPropertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
         this.propertyGame = localStorage.getItem('propertyGame')?JSON.parse(localStorage.getItem('propertyGame')):
@@ -105,10 +106,13 @@ export class Game2048{
         this.maximumScore = 0||this.statisticObj.maximum.score;
         this.maxScore.innerHTML = this.maximumScore;
         this.isNextSquareShow=true;
-
-        this.score = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).score : 0;
-        this.steps = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).steps : 0;
-        this.value = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).value : 0;
+        if(localStorage.getItem('PropertiesBeforeUnload')){
+            let local = JSON.parse(localStorage.getItem('PropertiesBeforeUnload'));
+            this.mode = local.mode || 'normal';
+            this.score = local.score || 0;
+            this.steps = local.steps || 0;
+            this.value = local.value || 0;
+        }
         if(this.value >=  this.gameLimit ){
             this.isNotGet2048=false;
         }else{
@@ -139,6 +143,7 @@ export class Game2048{
 
     setPropertyGame(){
         this.propertyGame = {}
+        this.propertyGame.mode = this.mode;
         this.propertyGame.time = this.gameTime.innerText;
         this.propertyGame.score = this.score;
         this.propertyGame.steps = this.steps;
@@ -433,7 +438,7 @@ export class Game2048{
     }
 
     renderPreviousBoard(){
-        if(!this.lastSquare){
+        if(!this.lastSquare || this.mode ==='hard'){
             wrongBeep.play();
             return;
         }

@@ -26,20 +26,19 @@
                     <span class="game__2048-time-declaration">Time: </span><span class="game__2048-time-value"></span>
                 </div>
             </div>
-            <div class ="game__2048-select-game">
-                <button class="game-container__show-stat-btn btn">Statistic</button>
-                <select name="type" id="type">
-                    <option value="normal">normal</option>
-                    <option value="forTime">playing for time</option>
-                </select>
-                <select name="difficult" id="difficult">
-                    <option value="easy">easy</option>
-                    <option value="normal">normal</option>
+
+            <div class = "game_header-btn-containers">
+                <select name="difficult" id="difficult" class = "game__difficult">
+                    <option value="normal" selected>normal</option>
                     <option value="hard">hard</option>
-                    <option value="nightmare">nightmare</option>
                 </select>
+    
+                <button class="game-container__show-stat-btn btn">Statistic</button>
+                <button class="game-container__show-rules btn">rules</button>
             </div>
-        </header>
+
+
+         </header>
 
         <div class="game__statistic">
             <div class="game__statistic-container">

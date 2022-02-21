@@ -1,26 +1,38 @@
 import './style/normalize.css';
 import './style/style.scss'; 
-import './style/header.scss'
+import './style/header.scss';
+import './style/select.scss';
 import './style/game2048.scss';
 import './statistic/statistic.scss';
 import './ads/ads.scss';
 import './style/buttons.scss';
 import './style/footer.scss';
 
+
 import { Game2048 } from './Script2048/g2048';
-import Statistic from './statistic/statistic'
+import Statistic from './statistic/statistic';
 let log = (param)=> console.log(param);
 
 const btnNewGame = document.querySelector('game__new-game-btn');
-
-const statistic = new Statistic('.game__statistic')
+const mode = document.querySelector('.game__difficult');
+const statistic = new Statistic('.game__statistic');
 const g2048 = new Game2048('.game__2048-container');
+
+
+mode.addEventListener('change', handleChangeMode)
 
 document.addEventListener('click', handleClick);
 document.addEventListener('mousedown', handleMouseDown);
 document.addEventListener('keydown', handleKeyDown);
 
 window.addEventListener('beforeunload', handleUnload);
+
+function handleChangeMode(event) {
+    if(!g2048.isGameGoing){
+        g2048.mode = mode.value;
+    }
+    
+}
 
 function handleUnload(event){
     g2048.copyPreviousBoard();
