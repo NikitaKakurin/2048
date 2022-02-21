@@ -27,21 +27,21 @@
 
 .game__2048-container[data-side = 'top-left']{
  box-shadow: rgb(0,0,0, .6) -40px -40px 20px;
- transform: rotateX(15deg) rotateY(15deg);
+ transform: rotateX(14deg) rotateY(14deg);
 }
 .game__2048-container[data-side = 'top-right']{
     box-shadow: rgb(0,0,0, .6) 40px -40px 20px;
-    transform: rotateX(15deg) rotateY(-15deg);
+    transform: rotateX(14deg) rotateY(-14deg);
 }
 
 .game__2048-container[data-side = 'bottom-left']{
     box-shadow: rgb(0,0,0, .6) -40px 40px 20px;
-    transform: rotateX(-15deg) rotateY(15deg);
+    transform: rotateX(-14deg) rotateY(14deg);
 }
 
 .game__2048-container[data-side = 'bottom-right']{
     box-shadow: rgb(0,0,0, .6) 40px 40px 20px;
-    transform: rotateX(-15deg) rotateY(-15deg);
+    transform: rotateX(-14deg) rotateY(-14deg);
 }
 
 
