@@ -30,7 +30,7 @@ export class Game2048{
         this.isNextSquareShow=false;
         this.isGameGoing = false;
         this.isNotGet2048 = true;
-        this.gameLimit = 16;
+        this.gameLimit = 128;
         
 
         this.prevPropertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
@@ -44,6 +44,11 @@ export class Game2048{
         this.renderAfterLoad();                                                               
     }
     
+    levelTheBoard(){
+        this.containerSquares.dataset.side = "";
+        setTimeout(()=>this.initGame(),700)
+    }
+
     setLocalStorageLastPosition(){
         clearInterval(this.timerInterval);
         localStorage.setItem('PositionBeforeUnload', JSON.stringify(this.previousMove));
@@ -76,7 +81,7 @@ export class Game2048{
 
         this.getIndexesEmptySquares()
         this.setCoords()
-
+        
         this.restartTime = +localStorage.getItem('beforeRestartTime')?+localStorage.getItem('beforeRestartTime') : 0;
         this.initTime = Date.now();
         this.timerIntervalAfterRestart = setInterval(() => {
@@ -89,6 +94,7 @@ export class Game2048{
             'width':this.squares[0].clientWidth,
             'height':this.squares[0].clientHeight,
         };
+        
     }
 
     renderAfterLoad(){
@@ -162,13 +168,13 @@ export class Game2048{
 
     setStatisticObj(){
         this.statisticObj.maximum = (this.statisticObj.maximum.score>this.score)?this.statisticObj.maximum:this.propertyGame;
-        if(this.statisticObj.history.length>=9 && this.propertyGame.score > this.statisticObj.history[8].score){
-                this.statisticObj.history.pop();
-        }
         this.statisticObj.history.push(this.propertyGame);
         this.statisticObj.history=this.statisticObj.history.sort((a,b)=>{
             return +b.score - +a.score;
         })
+        while(this.statisticObj.history.length>10){
+            this.statisticObj.history.pop();
+        }
     }
 
     saveLocalStorage(){
@@ -482,7 +488,6 @@ export class Game2048{
         this.scoreTable.innerText=this.score;
     }
 
-
     finishMove(){
         if(this.isChange){
             this.isNextSquareShow=false;
@@ -492,9 +497,7 @@ export class Game2048{
             wrongBeep.play()
         }
     }
-    
-    
-
+ 
     changeArrayOfSquares(currentRow, currentColumn, targetRow, targetColumn, isMergeSquare){
         this.copyPreviousBoard();
         let previousSquare = this.ArrayOfSquares[targetRow][targetColumn];

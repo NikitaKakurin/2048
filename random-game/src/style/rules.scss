@@ -61,7 +61,10 @@
 .game__rules-close-btn:hover{
     filter: invert(50%) sepia(78%) saturate(4479%) hue-rotate(11deg) brightness(106%) contrast(94%);
 }
+.game__rules-list{
+    overflow-y: auto;
+ }
 
 .game__rules-item{
-   margin-bottom: 20px;
+   margin-bottom: 15px;
 }

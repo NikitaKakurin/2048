@@ -60,7 +60,8 @@ function handleMouseDown(event){
 function handleClick(event){
     const target =  event.target
     if(target.classList.contains('game__new-game-btn')){
-        g2048.initGame();
+        
+        g2048.levelTheBoard();
     }
 
     if(target.classList.contains('up')){
