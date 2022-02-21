@@ -37,7 +37,7 @@ export class Game2048{
         this.propertyGame = localStorage.getItem('propertyGame')?JSON.parse(localStorage.getItem('propertyGame')):
         {'steps':0,'score':0, 'time':'00:00', 'value':0};
         this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
-                            {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0},'history':[]};
+                            {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0, 'mode':'normal'},'history':[]};
                    
 
         this.previousPosition=localStorage.getItem('PositionBeforeUnload')?JSON.parse(localStorage.getItem('PositionBeforeUnload')):null;
@@ -172,6 +172,7 @@ export class Game2048{
     }
 
     saveLocalStorage(){
+        debugger
         if(this.value==0||this.score==0||this.steps==0){
             return;
         }
@@ -482,8 +483,13 @@ export class Game2048{
             wrongBeep.play()
         }
     }
+    
+    
 
     changeArrayOfSquares(currentRow, currentColumn, targetRow, targetColumn, isMergeSquare){
+        
+        mode.value = this.mode;
+
         this.copyPreviousBoard();
         let previousSquare = this.ArrayOfSquares[targetRow][targetColumn];
         this.ArrayOfSquares[targetRow][targetColumn]=this.ArrayOfSquares[currentRow][currentColumn];

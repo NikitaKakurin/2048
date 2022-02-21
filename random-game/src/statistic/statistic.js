@@ -30,7 +30,7 @@ class Statistic{
         this.currAndMax.innerHTML = "";
 
     this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
-        {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0},'history':[]};
+        {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0,'mode':'normal'},'history':[]};
 
     
     let currAndMaxFrag = document.createDocumentFragment();
@@ -38,26 +38,28 @@ class Statistic{
                             g2048.propertyGame.score,
                             g2048.propertyGame.value,
                             g2048.propertyGame.steps,
-                            g2048.propertyGame.time))
+                            g2048.propertyGame.time,
+                            g2048.propertyGame.mode))
     
     currAndMaxFrag.append(this.renderOneRow("Max", 
                             this.statisticObj.maximum.score,
                             this.statisticObj.maximum.value,
                             this.statisticObj.maximum.steps,
-                            this.statisticObj.maximum.time))
+                            this.statisticObj.maximum.time,
+                            this.statisticObj.maximum.mode))
     
     this.currAndMax.append(currAndMaxFrag);
 
     let fragment = document.createDocumentFragment();
     
     this.statisticObj.history.forEach((game, index) => {
-        fragment.append(this.renderOneRow(index+1, game.score, game.value, game.steps, game.time))
+        fragment.append(this.renderOneRow(index+1, game.score, game.value, game.steps, game.time, game.mode))
     });
 
     this.history.append(fragment);
     }
 
-    renderOneRow(number, score, value, steps, time){
+    renderOneRow(number, score, value, steps, time, mode){
 debugger
         const statisticItem = createOneElement('div','game__statistic-item');
         const statisticNumber = createOneElement('div','game__statistic-number',number);
@@ -65,12 +67,14 @@ debugger
         const statisticValue = createOneElement('div','game__statistic-value',value);
         const statisticSteps = createOneElement('div','game__statistic-steps',steps);
         const statisticTime = createOneElement('div','game__statistic-time',time);
+        const statisticMode = createOneElement('div','game__statistic-time',mode);
 
         statisticItem.append(statisticNumber,
                             statisticScore, 
                             statisticValue,
                             statisticSteps,
-                            statisticTime)
+                            statisticTime,
+                            statisticMode)
         return statisticItem;
     }
 
