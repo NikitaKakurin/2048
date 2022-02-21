@@ -1,0 +1,103 @@
+@import './variables.scss';
+.game__new-game-confirm{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+    opacity: 0;
+    overflow: hidden;
+    color: #1c1c1c;
+    transition: width .5s ease-in,
+                height .5s ease-in,
+                opacity .8s ease-in,
+                z-index .5s ease-in,
+                transform 1s ease-in,;
+}
+
+.game__new-game-confirm--show{
+    width: 100vw;
+    height: 100vh;
+    z-index: 5;
+    opacity: 1;
+}
+
+.game__new-game-confirm-container{
+    width: 400px;
+    height: 150px;
+    border-radius: 50px;
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #d8c18b;
+}
+
+.game__new-game-confirm-close-btn{
+    position: absolute;
+    padding: 0;
+    top: 25px;
+    right: 25px;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: transparent;
+    background-image: url('../assets/svg/close_black_24dp.svg');
+    background-position:  center;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    cursor: pointer;
+}
+
+.game__new-game-confirm-close-btn:hover{
+    filter: invert(50%) sepia(78%) saturate(4479%) hue-rotate(11deg) brightness(106%) contrast(94%);
+}
+
+.game__new-game-normal-btn,
+.game__new-game-hard-btn{
+    background-color: #dbd6c8;
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: box-shadow .5s,color .5s;
+}
+
+.game__new-game-normal-btn{
+    box-shadow: #1c1c1c 10px 10px 5px;
+}
+
+.game__new-game-hard-btn{
+    box-shadow: #1c1c1c -10px 10px 5px;
+}
+
+.game__new-game-normal-btn:hover{
+    color: orange;
+    box-shadow: #5886e7 5px 5px 5px;
+}
+
+
+.game__new-game-hard-btn:hover{
+    color: orange;
+    box-shadow: #f32f2f -5px 5px 5px;
+}
+
+.game__new-game-hard-btn{
+    background-image: url('../assets/svg/Skull.svg');
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 50px;
+}
+
+.game__new-game-normal-btn{
+    background-image: url('../assets/svg/pacifier.svg');
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 50px;
+}

@@ -15,7 +15,7 @@
             <h1 class="game__title">2048</h1>
             <div class="game__2048-container-parameters">
                 <div class="game__2048-max-score">
-                    <span class="game__2048-max-score-declaration">Maximum score: </span>
+                    <span class="game__2048-max-score-declaration">Max score: </span>
                     <span class="game__2048-max-score-value"></span>
                 </div>
                 <div class="game__2048-score">
@@ -26,13 +26,8 @@
                     <span class="game__2048-time-declaration">Time: </span><span class="game__2048-time-value"></span>
                 </div>
             </div>
-
-            <div class = "game_header-btn-containers">
-                <select name="difficult" id="difficult" class = "game__difficult">
-                    <option value="normal" selected>normal</option>
-                    <option value="hard">hard</option>
-                </select>
-    
+            <div class = "game__difficult"></div>
+            <div class = "game_header-btn-containers">      
                 <button class="game-container__show-stat-btn btn">Statistic</button>
                 <button class="game-container__show-rules btn">rules</button>
             </div>
@@ -79,12 +74,21 @@
                     <li class="game__rules-item">Если в одной строчке или в одном столбце находится более двух плиток одного номинала, то при сбрасывании они начинают соединяться с той стороны, в которую были направлены. Например, находящиеся в одной строке плитки (4, 4, 4) после хода влево превратятся в (8, 4), а после хода вправо — в (4, 8).</li>
                     <li class="game__rules-item">За каждое соединение игровые очки увеличиваются на номинал получившейся плитки.</li>
                     <li class="game__rules-item">Игра заканчивается поражением, если после очередного хода невозможно совершить действие.</li>
-                    <li class="game__rules-item">Доступно два режима Normal and Hard, в Hard режиме не работает кнопка назад.Чтобы установить режим надо выбрать режим и нажать кноку New game.</li>
+                    <li class="game__rules-item">Доступно два режима Normal and Hard, в Hard режиме не работает кнопка назад.</li>
                     <li class="game__rules-item">Сделать ход назад можно только один раз</li>
                     <li class="game__rules-item">Игра сохраняется в LocalStorage и будет доступна после закрытия вкладки</li>
                     <li class="game__rules-item">Для удобства проверяющих победа установлена на 128 очков</li>
                     <li class="game__rules-item">Наклон Доски расчитывается по весу: доска делится на четыре сектора, она наклоняестя в сторону сектора с наибольшим количеством очков</li>
                 </ol>
+            </div>
+        </div>
+
+        <div class="game__new-game-confirm">
+            <div class="game__new-game-confirm-container">
+                <button class="game__new-game-hard-btn">Hard</button>
+                <button class="game__new-game-normal-btn">Normal</button>
+                <button class="game__new-game-confirm-close-btn"></button>
+
             </div>
         </div>
 

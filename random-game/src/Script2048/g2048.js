@@ -11,7 +11,8 @@ const victory = new Audio(flawlessVictory);
 const gameOverSound = new Audio(gameOver);
 const wrongBeep = new Audio(wrong);
 const moveBack = new Audio(metkir);
-const mode = document.querySelector('.game__difficult');
+const modeImage = document.querySelector('.game__difficult');
+
 
 
 
@@ -94,7 +95,11 @@ export class Game2048{
             'width':this.squares[0].clientWidth,
             'height':this.squares[0].clientHeight,
         };
-        
+        if(this.mode == 'hard'){
+            modeImage.dataset.mode='hard'
+        }else if(this.mode == 'normal'){
+            modeImage.dataset.mode='normal'
+        }
     }
 
     renderAfterLoad(){
@@ -128,6 +133,12 @@ export class Game2048{
         }
         this.scoreTable.innerText = this.score;
         this.gameTime.innerHTML = localStorage.getItem('PropertiesBeforeUnload')?JSON.parse(localStorage.getItem('PropertiesBeforeUnload')).time : 0;
+
+        if(this.mode == 'hard'){
+            modeImage.dataset.mode='hard'
+        }else if(this.mode == 'normal'){
+            modeImage.dataset.mode='normal'
+        }
     }
 
     createSquare(squarePlace, value){
@@ -216,7 +227,6 @@ export class Game2048{
             this.saveLocalStorage();
         }
 
-        this.mode = mode.value;
         localStorage.setItem('beforeRestartTime', "0");
         this.totalTime = 0;
         this.initGameData();
@@ -355,17 +365,10 @@ export class Game2048{
         square.dataset.isCanChange = "true";
     }
 
-
-    setSelectorMode(){
-        mode.value = this.mode;
-        
-    }
-
     moveUp(){
         if(this.isNextSquareShow==false){
             return;
         }
-        this.setSelectorMode();
         this.isChange = false;
         for(let column = 0; column < this.countInRow; column++){
             this.moveSteps = 0;
@@ -380,7 +383,7 @@ export class Game2048{
         if(this.isNextSquareShow==false){
             return;
         }
-        this.setSelectorMode();
+
         this.isChange = false;
         for(let column = 0; column < this.countInRow; column++){
             this.moveSteps = 0;
@@ -395,7 +398,7 @@ export class Game2048{
         if(this.isNextSquareShow==false){
             return;
         }
-        this.setSelectorMode();
+
         this.isChange = false;
         for(let row = 0; row < this.countInRow; row++){
             this.moveSteps = 0;
@@ -410,7 +413,7 @@ export class Game2048{
         if(this.isNextSquareShow==false){
             return;
         }
-        this.setSelectorMode();
+
         this.isChange = false;
         for(let row = 0; row < this.countInRow; row++){
             this.moveSteps = 0;

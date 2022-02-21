@@ -8,16 +8,18 @@ import './style/rules.scss';
 import './ads/ads.scss';
 import './style/buttons.scss';
 import './style/footer.scss';
+import './style/confirm.scss';
+import './style/media.scss';
 
 
 import { Game2048 } from './Script2048/g2048';
 import Statistic from './statistic/statistic';
 let log = (param)=> console.log(param);
 
+const newConfirm = document.querySelector('.game__new-game-confirm');
 const rules = document.querySelector('.game__rules');
 const statistic = new Statistic('.game__statistic');
 const g2048 = new Game2048('.game__2048-container');
- 
 
 
 document.addEventListener('click', handleClick);
@@ -60,10 +62,26 @@ function handleMouseDown(event){
 function handleClick(event){
     const target =  event.target
     if(target.classList.contains('game__new-game-btn')){
-        
-        g2048.levelTheBoard();
+        newConfirm.classList.add('game__new-game-confirm--show')
+        return;
     }
 
+    if(target.classList.contains('game__new-game-hard-btn')){
+        g2048.mode = 'hard';
+        g2048.levelTheBoard();
+        newConfirm.classList.remove('game__new-game-confirm--show');
+        return;
+    }
+    if(target.classList.contains('game__new-game-normal-btn')){
+        g2048.mode = 'normal';
+        g2048.levelTheBoard();
+        newConfirm.classList.remove('game__new-game-confirm--show');
+        return;
+    }
+    if(target.classList.contains('game__new-game-confirm-close-btn')){
+        newConfirm.classList.remove('game__new-game-confirm--show')
+        return;
+    }
     if(target.classList.contains('up')){
         g2048.moveUp();
          return;
