@@ -4,6 +4,7 @@ import './style/header.scss';
 import './style/select.scss';
 import './style/game2048.scss';
 import './statistic/statistic.scss';
+import './style/rules.scss';
 import './ads/ads.scss';
 import './style/buttons.scss';
 import './style/footer.scss';
@@ -13,10 +14,10 @@ import { Game2048 } from './Script2048/g2048';
 import Statistic from './statistic/statistic';
 let log = (param)=> console.log(param);
 
-const btnNewGame = document.querySelector('game__new-game-btn');
+const rules = document.querySelector('.game__rules');
 const statistic = new Statistic('.game__statistic');
 const g2048 = new Game2048('.game__2048-container');
-
+ 
 
 
 document.addEventListener('click', handleClick);
@@ -82,19 +83,28 @@ function handleClick(event){
 
     if(target.classList.contains('game__statistic-close-btn')){
         statistic.hideStatistic();
+        return;
     }
 
     if(target.classList.contains('game-container__show-stat-btn')){
         g2048.setPropertyGame();
         statistic.renderStatistic();
         statistic.showStatistic();
+        return;
     }
 
     if(target.classList.contains('game-container__step-back')){
         g2048.renderPreviousBoard();
+        return;
     }
-
-    
+    if(target.classList.contains('game-container__show-rules')){
+        rules.classList.add('game__rules--show');
+        return;
+    }
+    if(target.classList.contains('game__rules-close-btn')){
+        rules.classList.remove('game__rules--show');
+        return;
+    }
 }
 
 function getStartSwipe(event){

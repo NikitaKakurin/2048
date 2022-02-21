@@ -60,7 +60,6 @@ class Statistic{
     }
 
     renderOneRow(number, score, value, steps, time, mode){
-debugger
         const statisticItem = createOneElement('div','game__statistic-item');
         const statisticNumber = createOneElement('div','game__statistic-number',number);
         const statisticScore = createOneElement('div','game__statistic-score',score);

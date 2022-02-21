@@ -31,7 +31,7 @@ export class Game2048{
         this.isGameGoing = false;
         this.isNotGet2048 = true;
         this.gameLimit = 16;
-        this.mode = 'normal';
+        
 
         this.prevPropertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
         this.propertyGame = localStorage.getItem('propertyGame')?JSON.parse(localStorage.getItem('propertyGame')):
@@ -172,7 +172,6 @@ export class Game2048{
     }
 
     saveLocalStorage(){
-        debugger
         if(this.value==0||this.score==0||this.steps==0){
             return;
         }
@@ -350,10 +349,17 @@ export class Game2048{
         square.dataset.isCanChange = "true";
     }
 
+
+    setSelectorMode(){
+        mode.value = this.mode;
+        
+    }
+
     moveUp(){
         if(this.isNextSquareShow==false){
             return;
         }
+        this.setSelectorMode();
         this.isChange = false;
         for(let column = 0; column < this.countInRow; column++){
             this.moveSteps = 0;
@@ -368,6 +374,7 @@ export class Game2048{
         if(this.isNextSquareShow==false){
             return;
         }
+        this.setSelectorMode();
         this.isChange = false;
         for(let column = 0; column < this.countInRow; column++){
             this.moveSteps = 0;
@@ -382,6 +389,7 @@ export class Game2048{
         if(this.isNextSquareShow==false){
             return;
         }
+        this.setSelectorMode();
         this.isChange = false;
         for(let row = 0; row < this.countInRow; row++){
             this.moveSteps = 0;
@@ -396,6 +404,7 @@ export class Game2048{
         if(this.isNextSquareShow==false){
             return;
         }
+        this.setSelectorMode();
         this.isChange = false;
         for(let row = 0; row < this.countInRow; row++){
             this.moveSteps = 0;
@@ -487,9 +496,6 @@ export class Game2048{
     
 
     changeArrayOfSquares(currentRow, currentColumn, targetRow, targetColumn, isMergeSquare){
-        
-        mode.value = this.mode;
-
         this.copyPreviousBoard();
         let previousSquare = this.ArrayOfSquares[targetRow][targetColumn];
         this.ArrayOfSquares[targetRow][targetColumn]=this.ArrayOfSquares[currentRow][currentColumn];
@@ -527,7 +533,6 @@ export class Game2048{
     }
 
     animateBoard(){
-        debugger
         const topLeft = this.checkValue(this.ArrayOfSquares[0][0])+
                         this.checkValue(this.ArrayOfSquares[0][1])+
                         this.checkValue(this.ArrayOfSquares[1][0])+
