@@ -12,7 +12,7 @@ import './style/confirm.scss';
 import './style/media.scss';
 
 
-import { Game2048 } from './Script2048/g2048';
+import { Game2048 } from './script2048/g2048';
 import Statistic from './statistic/statistic';
 let log = (param)=> console.log(param);
 
