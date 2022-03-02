@@ -55,7 +55,7 @@
     background-image: url('../assets/svg/close_black_24dp.svg');
     background-position:  center;
     background-repeat: no-repeat;
-    background-size: 70px;
+    background-size: cover;
 }
 
 .game__rules-close-btn:hover{
@@ -63,6 +63,7 @@
 }
 .game__rules-list{
     overflow-y: auto;
+    padding:0 2rem;
  }
 
 .game__rules-item{

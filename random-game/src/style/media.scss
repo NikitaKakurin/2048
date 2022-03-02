@@ -45,11 +45,81 @@
         margin-top: 10px;
         row-gap: 10px;
     }
+
+    // ----------------Statistic screen start----------------
+    .game__statistic{
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+    .game__statistic-close-btn{
+        top: 0px;
+        right: 10px;
+        background-size: 70px;
+    }
+
+    .game__statistic-container{
+        width: 90%;
+    }
+    .game__ads,
+    .game__statistic-maximum,
+    .game__statistic-item,
+    .game__statistic-current,
+    .game__statistic-head,
+    .game__statistic-title,
+    .game__statistic-history{
+        width: 100%;
+        height: 50px;
+    }
+
+    .game__statistic-current-and-max{
+        width: 100%;
+        height: 100px;
+    }
+
+    .game__statistic-title{
+        font-size: 1.5rem;
+    }
+
+    // ----------------Statistic screen end----------------
+}
+@media (max-width: 720px) {
+    // ----------------Statistic screen start----------------
+    .game__statistic-container{
+        font-size: 14px;
+    }
+    // ----------------Statistic screen end----------------
+}
+@media (max-width: 530px) {
+    // -------------------Main screen start--------------
+    .game__buttons-container{
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    // -------------------Main screen end--------------
+
+    // ----------------Statistic screen start----------------
+    .game__statistic-container{
+        font-size: 10px;
+    }
+    .game__statistic-close-btn{
+        width: 25px;
+        height: 25px;
+    }
+    // ----------------Statistic screen end----------------
+
+    // ----------------rules screen start----------------
+    .game__rules-title{
+        font-size: 2rem;
+    }
+    .game__rules-close-btn{
+        width: 25px;
+        height: 25px;
+    }
+    // ----------------Rules screen end------------------
 }
 
-
 @media (max-width: 500px) {
-
+// -------------------Main screen start--------------
     html{
         font-size: 10px;
     }
@@ -82,11 +152,6 @@
         max-height: 60px;
     }
 
-    .game__buttons-container{
-        margin-bottom: 10px;
-        width: 100%;
-    }
-
     .btn{
         width: 60px;
         height: 30px;
@@ -106,6 +171,23 @@
     .game__footer-container{
         padding: 0 10px;
     }
+// -------------------Main screen end--------------
+    // ----------------Statistic screen start----------------
+    .game__ads{
+        font-size: 25px;
+    }
 
-    
+    // ----------------Statistic screen end----------------
+
+}
+
+@media (max-width: 360px) {
+    // ----------------Statistic screen start----------------
+    .game__ads{
+        font-size: 20px;
+    }
+    .game__statistic-container{
+        width: 100%;
+    }
+    // ----------------Statistic screen end----------------
 }
