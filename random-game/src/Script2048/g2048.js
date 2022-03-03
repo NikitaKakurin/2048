@@ -301,7 +301,7 @@ export class Game2048{
             if(this.arrayOfEmpty.length==1 && this.isGameOver()){
                 setTimeout(()=>this.initGameOver(),200)
             }
-        }, 300);
+        }, 200);
         return aSquare;
     }
 
