@@ -68,12 +68,10 @@
     .game__statistic-title,
     .game__statistic-history{
         width: 100%;
-        height: 50px;
     }
 
     .game__statistic-current-and-max{
         width: 100%;
-        height: 100px;
     }
 
     .game__statistic-title{
@@ -91,6 +89,7 @@
 }
 @media (max-width: 530px) {
     // -------------------Main screen start--------------
+    
     .game__buttons-container{
         margin-bottom: 10px;
         width: 100%;
@@ -100,6 +99,30 @@
     // ----------------Statistic screen start----------------
     .game__statistic-container{
         font-size: 10px;
+    }
+
+    .game__statistic-maximum,
+    .game__statistic-item,
+    .game__statistic-current,
+    .game__statistic-head,
+    .game__statistic-title{
+        height: 20px;
+    }
+
+    .game__statistic-title{
+        font-family: 'Merriweather', serif;
+    }
+
+    .game__statistic-number{
+        height: 20px;
+    }
+
+    .game__statistic-mode,
+    .game__statistic-value,
+    .game__statistic-score,
+    .game__statistic-steps,
+    .game__statistic-time{
+        height: 20px;
     }
     .game__statistic-close-btn{
         width: 25px;
@@ -119,6 +142,7 @@
 }
 
 @media (max-width: 500px) {
+
 // -------------------Main screen start--------------
     html{
         font-size: 10px;
@@ -171,6 +195,7 @@
     .game__footer-container{
         padding: 0 10px;
     }
+
 // -------------------Main screen end--------------
     // ----------------Statistic screen start----------------
     .game__ads{

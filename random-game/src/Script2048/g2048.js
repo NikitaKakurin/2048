@@ -13,10 +13,6 @@ const wrongBeep = new Audio(wrong);
 const moveBack = new Audio(metkir);
 const modeImage = document.querySelector('.game__difficult');
 
-
-
-
-
 export class Game2048{
     constructor(selector){
         this.board = document.querySelector(selector);
@@ -32,19 +28,26 @@ export class Game2048{
         this.isGameGoing = false;
         this.isNotGet2048 = true;
         this.gameLimit = 128;
-        
 
-        this.prevPropertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
-        this.propertyGame = localStorage.getItem('propertyGame')?JSON.parse(localStorage.getItem('propertyGame')):
-        {'steps':0,'score':0, 'time':'00:00', 'value':0};
-        this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
-                            {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0, 'mode':'normal'},'history':[]};
-                   
 
-        this.previousPosition=localStorage.getItem('PositionBeforeUnload')?JSON.parse(localStorage.getItem('PositionBeforeUnload')):null;
-        this.renderAfterLoad();                                                               
+            this.prevPropertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
+            this.propertyGame = localStorage.getItem('propertyGame')?JSON.parse(localStorage.getItem('propertyGame')):
+            {'steps':0,'score':0, 'time':'00:00', 'value':0};
+            this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
+                                {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0, 'mode':'normal'},'history':[]};
+            
+            this.previousPosition=localStorage.getItem('PositionBeforeUnload')?JSON.parse(localStorage.getItem('PositionBeforeUnload')):null;
+            this.ready(this.renderAfterLoad.bind(this))
     }
     
+    ready(fn){
+        if(document.readyState !='loading'){
+            fn()
+        }else{
+            document.addEventListener('load',fn.bind(this))
+        }
+    }
+
     levelTheBoard(){
         this.containerSquares.dataset.side = "";
         setTimeout(()=>this.initGame(),700)
@@ -80,8 +83,7 @@ export class Game2048{
             [null, null, null, null],
         ]
 
-        this.getIndexesEmptySquares()
-        this.setCoords()
+
         
         this.restartTime = +localStorage.getItem('beforeRestartTime')?+localStorage.getItem('beforeRestartTime') : 0;
         this.initTime = Date.now();
@@ -90,16 +92,17 @@ export class Game2048{
             this.totalTime = Math.floor((this.currentTime - this.initTime)/1000)+this.restartTime
             this.gameTime.innerText = this.calcTime(this.totalTime);
         }, 1000);
-
-        this.squareSizes = {
-            'width':this.squares[0].clientWidth,
-            'height':this.squares[0].clientHeight,
-        };
         if(this.mode == 'hard'){
             modeImage.dataset.mode='hard'
         }else if(this.mode == 'normal'){
             modeImage.dataset.mode='normal'
         }
+        this.squareSizes = {
+            'width':this.squares[0].clientWidth,
+            'height':this.squares[0].clientHeight,
+        };
+        this.getIndexesEmptySquares()
+        this.setCoords()
     }
 
     renderAfterLoad(){
