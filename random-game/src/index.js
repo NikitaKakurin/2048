@@ -12,6 +12,8 @@ import './style/confirm.scss';
 import './style/media.scss';
 
 // document.addEventListener('load',)
+
+
 import { Game2048 } from './script2048/g2048';
 import Statistic from './statistic/statistic';
 let log = (param)=> console.log(param);
@@ -207,17 +209,42 @@ let log = (param)=> console.log(param);
     }
 
 
+
+
+
 const newConfirm = document.querySelector('.game__new-game-confirm');
 const containerSquares = document.querySelector('.game__2048-container');
 const rules = document.querySelector('.game__rules');
-const statistic = new Statistic('.game__statistic');
-const g2048 = new Game2048('.game__2048-container');
+let statistic;
+let g2048;
+
+function init(){
+    statistic = new Statistic('.game__statistic');
+    g2048 = new Game2048('.game__2048-container');
+    document.addEventListener('click', handleClick);
+    document.addEventListener('mousedown', handleMouseDown, false);
+    document.addEventListener('keydown', handleKeyDown);
+    containerSquares.addEventListener('touchstart', handleTouchStart,{'passive':false})
+    window.addEventListener('beforeunload', handleUnload);
+}
 
 
-document.addEventListener('click', handleClick);
-document.addEventListener('mousedown', handleMouseDown, false);
-document.addEventListener('keydown', handleKeyDown);
-containerSquares.addEventListener('touchstart', handleTouchStart,{'passive':false})
-window.addEventListener('beforeunload', handleUnload);
+function ready(){
+    if(document.readyState !='loading'){
+        init();
+    }else{
+        document.addEventListener('DOMContentLoaded',()=>{
+            init();
+        })
+    }
+}
+setTimeout(()=>{
+    ready();
+},2000)
+
+
+
+
+
 
 export {statistic, g2048};

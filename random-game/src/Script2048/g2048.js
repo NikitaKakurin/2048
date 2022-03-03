@@ -37,16 +37,17 @@ export class Game2048{
                                 {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0, 'mode':'normal'},'history':[]};
             
             this.previousPosition=localStorage.getItem('PositionBeforeUnload')?JSON.parse(localStorage.getItem('PositionBeforeUnload')):null;
-            this.ready(this.renderAfterLoad.bind(this))
+            this.renderAfterLoad();
+            // this.ready(this.renderAfterLoad.bind(this))
     }
     
-    ready(fn){
-        if(document.readyState !='loading'){
-            fn()
-        }else{
-            document.addEventListener('load',fn.bind(this))
-        }
-    }
+    // ready(fn){
+    //     if(document.readyState !='loading'){
+    //         fn()
+    //     }else{
+    //         document.addEventListener('DOMContentLoaded',fn.bind(this))
+    //     }
+    // }
 
     levelTheBoard(){
         this.containerSquares.dataset.side = "";
