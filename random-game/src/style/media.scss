@@ -89,7 +89,6 @@
 }
 @media (max-width: 530px) {
     // -------------------Main screen start--------------
-    
     .game__buttons-container{
         margin-bottom: 10px;
         width: 100%;
@@ -138,6 +137,11 @@
         width: 25px;
         height: 25px;
     }
+    .game__rules-list{
+        overflow-y: auto;
+        padding-left: 4rem;
+     }
+
     // ----------------Rules screen end------------------
 }
 
