@@ -240,7 +240,7 @@ function ready(){
 }
 setTimeout(()=>{
     ready();
-},2000)
+},500)
 
 
 
