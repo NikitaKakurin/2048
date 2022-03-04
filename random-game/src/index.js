@@ -22,7 +22,7 @@ let log = (param)=> console.log(param);
 
     function handleTouchStart(event){
         event.preventDefault()
-        getStartTouch(event);
+        getStartSwipe(event);
     }
 
 
@@ -55,43 +55,43 @@ let log = (param)=> console.log(param);
     }
 
 
-    function getStartTouch(event){
+    // function getStartTouch(event){
         
-        const initX = event.touches[0].clientX;
-        const initY = event.touches[0].clientY;
+    //     const initX = event.touches[0].clientX;
+    //     const initY = event.touches[0].clientY;
 
-        document.addEventListener("touchend",handleEndSwipe);
+    //     document.addEventListener("touchend",handleEndSwipe);
  
-        function handleEndSwipe(event){
-          const endX = event.changedTouches[0].clientX;
-          const endY = event.changedTouches[0].clientY;
-          const shiftX = endX - initX;
-          const shiftY = endY - initY;
+    //     function handleEndSwipe(event){
+    //       const endX = event.changedTouches[0].clientX;
+    //       const endY = event.changedTouches[0].clientY;
+    //       const shiftX = endX - initX;
+    //       const shiftY = endY - initY;
   
-          if(Math.abs(shiftX)>Math.abs(shiftY)){
-              getHorizontalDirection()
-          }else if(Math.abs(shiftX)<Math.abs(shiftY)){
-              getVerticalDirection()
-          }
+    //       if(Math.abs(shiftX)>Math.abs(shiftY)){
+    //           getHorizontalDirection()
+    //       }else if(Math.abs(shiftX)<Math.abs(shiftY)){
+    //           getVerticalDirection()
+    //       }
   
-          function getHorizontalDirection(){
-              if(shiftX>30){
-                  g2048.moveRight();
-              }else if(shiftX<-30){
-                  g2048.moveLeft();
-              }
-          }
+    //       function getHorizontalDirection(){
+    //           if(shiftX>30){
+    //               g2048.moveRight();
+    //           }else if(shiftX<-30){
+    //               g2048.moveLeft();
+    //           }
+    //       }
   
-          function getVerticalDirection(){
-              if(shiftY>30){
-                  g2048.moveDown();
-              }else if(shiftY<-30){
-                  g2048.moveUp();
-              }
-          }
-              document.removeEventListener('touchend',handleEndSwipe);
-        }
-      }
+    //       function getVerticalDirection(){
+    //           if(shiftY>30){
+    //               g2048.moveDown();
+    //           }else if(shiftY<-30){
+    //               g2048.moveUp();
+    //           }
+    //       }
+    //           document.removeEventListener('touchend',handleEndSwipe);
+    //     }
+    //   }
 
     function handleClick(event){
         const target =  event.target
@@ -161,19 +161,31 @@ let log = (param)=> console.log(param);
     }
 
     function getStartSwipe(event){
-      const initX = event.clientX;
-      const initY = event.clientY;
+      let initX = event.clientX;
+      let initY = event.clientY;
         if(event.type==='mousedown'){
+            initX = event.clientX;
+            initY = event.clientY;
             document.addEventListener("mouseup",handleEndSwipe);
         }else if(event.type==='touchstart'){
+            initX = event.touches[0].clientX;
+            initY = event.touches[0].clientY;
             document.addEventListener("touchend",handleEndSwipe);
         }
 
-    
+        function handleEndSwipe(event){
+        let endX;
+        let endY;
+        if(event.type==='mouseup'){
+            endX = event.clientX;
+            endY = event.clientY;
+            document.removeEventListener("mouseup", handleEndSwipe);
+        }else if(event.type==='touchend'){
+            endX = event.changedTouches[0].clientX;
+            endY = event.changedTouches[0].clientY;
+            document.removeEventListener("touchend", handleEndSwipe);
+        }
 
-      function handleEndSwipe(event){
-        const endX = event.clientX;
-        const endY = event.clientY;
         const shiftX = endX - initX;
         const shiftY = endY - initY;
 
@@ -198,19 +210,8 @@ let log = (param)=> console.log(param);
                 g2048.moveUp();
             }
         }
-
-        if(event.type==='mouseup'){
-            document.removeEventListener('mouseup',handleEndSwipe);
-        }else if(event.type==='touchend'){
-            document.removeEventListener('touchend',handleEndSwipe);
-        }
-
       }
     }
-
-
-
-
 
 const newConfirm = document.querySelector('.game__new-game-confirm');
 const containerSquares = document.querySelector('.game__2048-container');

@@ -29,25 +29,22 @@ export class Game2048{
         this.isNotGet2048 = true;
         this.gameLimit = 128;
 
+        this.loadDataFromLocalStorage()
 
-            this.prevPropertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
-            this.propertyGame = localStorage.getItem('propertyGame')?JSON.parse(localStorage.getItem('propertyGame')):
-            {'steps':0,'score':0, 'time':'00:00', 'value':0};
-            this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
-                                {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0, 'mode':'normal'},'history':[]};
+        this.previousPosition=localStorage.getItem('PositionBeforeUnload')?JSON.parse(localStorage.getItem('PositionBeforeUnload')):null;
+        this.renderAfterLoad();
             
-            this.previousPosition=localStorage.getItem('PositionBeforeUnload')?JSON.parse(localStorage.getItem('PositionBeforeUnload')):null;
-            this.renderAfterLoad();
-            // this.ready(this.renderAfterLoad.bind(this))
     }
     
-    // ready(fn){
-    //     if(document.readyState !='loading'){
-    //         fn()
-    //     }else{
-    //         document.addEventListener('DOMContentLoaded',fn.bind(this))
-    //     }
-    // }
+    loadDataFromLocalStorage(){
+        this.prevPropertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
+        this.propertyGame = localStorage.getItem('propertyGame')?JSON.parse(localStorage.getItem('propertyGame')):
+        {'steps':0,'score':0, 'time':'00:00', 'value':0};
+        this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
+                            {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0, 'mode':'normal'},'history':[]};
+        
+    }
+
 
     levelTheBoard(){
         this.containerSquares.dataset.side = "";
@@ -221,11 +218,7 @@ export class Game2048{
     }
 
     initGame(){
-        this.prevPropertyGame = {'steps':0,'score':0, 'time':'00:00', 'value':0}
-        this.propertyGame = localStorage.getItem('propertyGame')?JSON.parse(localStorage.getItem('propertyGame')):
-        {'steps':0,'score':0, 'time':'00:00', 'value':0};
-        this.statisticObj = localStorage.getItem('statisticObj')?JSON.parse(localStorage.getItem('statisticObj')):
-                            {"maximum":{'steps':0,'score':0, 'time':'00:00', 'value':0},'history':[]};
+        this.loadDataFromLocalStorage();
                             
         if(this.isGameGoing){
             this.saveLocalStorage();
