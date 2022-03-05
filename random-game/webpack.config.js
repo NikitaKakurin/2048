@@ -4,8 +4,33 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin")
+let mode='development';
+if(process.env.Node_ENV === 'production'){
+    mode='production';
+}
+console.log(mode + ' mode');
+const filename  = ext =>(mode==='production')? `[name][contenthash].${ext}`:`[name].${ext}`;
 
-const filename  = ext => `[name][contenthash].${ext}`;
+const optimization = function(){
+  const config = {
+    splitChunks: {
+        chunks: 'all'
+    },
+    minimize: false,
+    minimizer: [],
+  }
+  
+  if(mode==='production'){
+    config.minimize = true;
+    config.minimizer = [  
+      new TerserPlugin(),
+      new CssMinimizerPlugin()
+    ];
+  }
+  return config;
+}
 
 const cssLoaders = extra =>{
   let loaders = [{
@@ -17,7 +42,7 @@ const cssLoaders = extra =>{
     options: {
       postcssOptions: {
         plugins: [
-          [postcssPresetEnv({ browsers: 'last 2 versions' })
+          [postcssPresetEnv({ browsers: '>0.2%, last 2 versions, not dead' })
           ],
         ],
       }
@@ -32,13 +57,26 @@ const cssLoaders = extra =>{
 module.exports = {
     context: path.resolve(__dirname,'./src'),
     mode:'development',
+    optimization: optimization(),
+    devServer: {
+      static: {
+        directory: path.resolve(__dirname, './src'),
+        watch:true,
+      },
+      compress: true,
+      port: 'auto',
+      hot:true,
+      open:true,
+    },
     entry: './index.js',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        assetModuleFilename: "assets/[hash][ext][query]",
     },
     devtool: 'source-map',
     plugins:[
+        // new CssMinimizerPlugin(),
         new HTMLWebpackPlugin({
             template:'./index.html'
         }),
@@ -77,6 +115,16 @@ module.exports = {
           {
             test:/\.(ttf|woff|woff2|eot)$/,
             type: 'asset/resource'
+          },
+          {
+            test: /\.m?js$/,
+            exclude: /(node_modules|bower_components)/,
+            use: {
+              loader: 'babel-loader',
+              options: {
+                presets: ['@babel/preset-env']
+              }
+            }
           },
         ],
       },
